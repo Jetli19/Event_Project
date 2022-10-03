@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'event/style.css' %}"/>
+</head>
+
+<body>
+
+<header>EVENT</header>
+
+<!-- {% if request.user.is_authenticated %} -->
+<div id="search">
+  <form action="/search/" method="post">
+    <div>
+      {% csrf_token %}
+      <input class="text" name="search" size="32" />
+    </div>
+  </form>
+</div>
+<!-- {% endif %} -->
+
+{% include 'navbar.html' %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

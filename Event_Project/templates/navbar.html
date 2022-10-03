@@ -1,0 +1,15 @@
+{% load static %}
+<nav>
+  <ul>
+    <li><a href="{% url 'home' %}">Home</a> </li>
+
+    <li><a href="{% url 'home' %}">Create event</a> </li>
+    <li><a href="{% url 'home' %}">Event</a> </li>
+    <li><a href="{% url 'home' %}">Users</a> </li>
+
+    <li class="last-item">User: <i>{{ request.user.username }} </i><a href="{% url 'home' %}"> Logout </a></li>
+
+    <li class="last-item"><a href="{% url 'home' %}">Login/Signup</a></li>
+
+ </ul>
+</nav>
