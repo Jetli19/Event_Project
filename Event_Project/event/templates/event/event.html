@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Event </title> <!-- bude se menit dynamicky -->
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header> Event project </header>
+
+<nav>
+    <ul>
+        <li><a href="/"> Home </a> </li>
+        <li><a href="/"> Add a new event </a> </li> <!-- Only if logged in -->
+        <li><a href="/"> Event list </a> </li> <!-- Only if logged in -->
+        <li class="last-item"><a href="/"> Log in / Sign up </a> </li>
+    </ul>
+</nav>
+
+<main>
+    <div class="event-page"> <!-- new -->
+        You are in the event: <b> Event title </b> <br> 
+    </div>
+    <div class="event-page"> <!-- new -->
+        Date from: ...    
+    </div>
+    <div class="event-page"> <!-- new -->
+        Date to: ...    
+    </div>
+    <div class="event-descr"> <!-- was: class="room-descr" -->
+        Full description: Full description of the event.
+    </div>
+    <div class="message-form">
+        <form action="" method="POST">
+            <label for="body"> Message: </label>
+            <textarea name="body" id="body" rows="5" cols="100"> </textarea> <!-- if possible: placeholder="(comment can be up to 500 characters long) -->
+            <input type="submit" value="Send">
+        </form>
+    </div>
+    <div class="messages-box">
+        <div class="other-message"> Message 1. </div>
+        <div class="my-message"> Message 2.</div>
+        <div class="other-message"> Message 3. </div>
+        <div class="my-message"> Message 4. </div>
+    </div>
+
+</main>
+
+</body>
+</html>
