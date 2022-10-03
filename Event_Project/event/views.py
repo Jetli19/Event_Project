@@ -9,9 +9,12 @@ from django.views.generic import UpdateView
 
 from event.models import Event
 
-
 def home(request):
     events = Event.objects.all()  # najdeme všechny místnosti
 
     context = {'events': events}
+
     return render(request, 'event/home.html', context)
+
+    return render(request, 'event/home.html', context)
+
