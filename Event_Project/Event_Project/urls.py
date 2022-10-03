@@ -23,13 +23,4 @@ import event.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', event.views.home, name='home'),
-
-
-
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-
-    path('', event.views.home, name='home'),
-
 ]
