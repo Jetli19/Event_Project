@@ -16,3 +16,11 @@ def home(request):
     context = {'events': events}
 
     return render(request, 'event/home.html', context)
+
+
+def login(request):
+    return render(request, 'event/login.html')
+
+
+def signup(request):
+    return render(request, 'account/signup.html')
