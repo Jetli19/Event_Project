@@ -23,4 +23,10 @@ import event.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', event.views.home, name='home'),
+    path('login-page', event.views.login, name='login'),  # TODO - asi docasne
+    path('signup', event.views.signup, name='signup'),  # TODO - asi docasne
+
+    # accounts aplikace
+    path("accounts/", include("accounts.urls")),  # vygeneruje signup
+    path("accounts/", include("django.contrib.auth.urls")),  # vsetky ostatne authorizacne urls
 ]

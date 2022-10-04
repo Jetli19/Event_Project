@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title> Log-in page </title> <!-- bude se menit dynamicky-->
-    <link rel="stylesheet" href="style.css"/>
+    <!-- <link rel="stylesheet" href="event/style.css"/> --> <!-- TODO vyhledove smazat - je to v main.html-->
+    <link rel="stylesheet" href="{% static 'event/style.css' %}"/> <!-- TODO vyhledove smazat - je to v main.html-->
 </head>
 <body>
 
@@ -42,7 +44,8 @@
 </main>
 
 <div class="box">
-    You can sign up for free here: <a href="/accounts/signup/"> Sign Up </a>.
+    <!-- You can sign up for free here: <a href="event/signup.html"> Sign Up </a>. --> <!-- TODO asi smazat -->
+    You can sign up for free here: <a href="{% url 'signup' %}"> Sign Up </a></li>
 </div>
 
 </body>
