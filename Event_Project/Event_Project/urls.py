@@ -26,7 +26,17 @@ urlpatterns = [
     # path('login/', event.views.login, name='login'),
     path('signup/', event.views.signup, name='signup'),
 
+    path('event/<str:pk>/', event.views.event, name="event"),
+    path('events/', event.views.events, name='events'),
+
+    path('create_event/', event.views.create_event, name="create_event"),
+
+    path('delete_event/<str:pk>/', event.views.delete_event, name='delete_event'),
+    path('delete_event_yes/<pk>/', event.views.delete_event_yes, name="delete_event_yes"),
+
     # accounts aplikace
     path("accounts/", include("accounts.urls")),  # vygeneruje signup
     path("accounts/", include("django.contrib.auth.urls")),  # vsetky ostatne authorizacne urls
+
+    path("__reload__/", include("django_browser_reload.urls"))
 ]

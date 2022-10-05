@@ -1,0 +1,15 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %}Delete event{% endblock %}
+
+{% block content %}
+    Opravdu chcete smazat event <b>{{ event.name }}</b>, ktery obsahuje {{ message_count }} zpráv.
+    <div class="yes">
+        <a href="{% url 'delete_event_yes' event.id %}">Yes</a>
+    </div>
+    <div class="no">
+        <a href="{% url 'events' %}">No</a>
+    </div>
+{% endblock %}
