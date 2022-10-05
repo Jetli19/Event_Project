@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 
-{% block title %}Event: {{ room.name }}{% endblock %}
+{% block title %}Event: {{ event.name }}{% endblock %}
 
 {% block content %}
     <div class="room-descr">
@@ -11,10 +11,42 @@
     <div class="message-form">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <label for="body">Message: </label>
+            <label for="body">Comment: </label>
             <textarea name="body" id="body" rows="1" cols="100"> </textarea>
             <input type="file" name="upload" accept="*">  <!-- accept=".doc, .pdf, .txt", vsechno-->
             <input type="submit" value="Send">
         </form>
     </div>
-{% endblock %}
+
+    <div class="messages-box">
+        {% for comment in comments %}
+            {% if comment.user == request.user %}
+                <div class="my-message">
+                    <div class="my-message-info">
+                        <span class="message-user">{{ comment.user }}</span>
+                        <span class="message-time">{{ comment.created }}</span>
+                    </div>
+                    <div class="my-message-body">{{ comment.body }}</div>
+                    {% if comment.file %}
+                        <div class="my-message-file">
+                            <a href="{{ comment.file }}" target="_blank"><img src="{{ comment.file }}" width="50px"></a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="other-message">
+                    <div class="other-message-info">
+                        <span class="message-user">{{ comment.user }}</span>
+                        <span class="message-time">{{ comment.created }}</span>
+                    </div>
+                    <div class="other-message-body">{{ comment.body }}</div>
+                    {% if comment.file %}  <!-- zobrazit obrázek -->
+                        <div class="other-message-file">
+                            <a href="{{ comment.file }}" target="_blank"><img src="{{ comment.file }}" width="50px"></a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endblock %}

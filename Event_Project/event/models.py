@@ -17,25 +17,25 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
-    # def messages_count(self):
-    #     room_messages = self.message_set.all()
-    #     return room_messages.count()
-    #
-    # def last_message_time(self):
-    #     room_message = self.message_set.all()[0]
-    #     return room_message.updated
+    def comments_count(self):
+        event_comments = self.comment_set.all()
+        return event_comments.count()
+
+    def last_comment_time(self):
+        event_comments = self.comment_set.all()[0]
+        return event_comments.updated
 
 
-# class Message(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-#     body = models.TextField(null=False, blank=False)
-#     file = models.TextField(null=True)  # file atribute in model
-#     updated = models.DateTimeField(auto_now=True)
-#     created = models.DateTimeField(auto_now_add=True)
-#
-#     class Meta:
-#         ordering = ['-updated', '-created']
-#
-#     def __str__(self):
-#         return self.body[0:50]
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    body = models.TextField(null=False, blank=False)
+    file = models.TextField(null=True)  # file atribute in model
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-updated', '-created']
+
+    def __str__(self):
+        return self.body[0:50]

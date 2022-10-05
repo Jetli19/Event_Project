@@ -16,7 +16,7 @@
                     {% if event.host.id == request.user.id %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
                         <a href="{% url 'delete_event' event.id %}">
                             <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
-
+                        <a href="{% url 'edit_event' event.id %}">🖉</a>
                     {% endif %}
                 {% endif %}
                 {% if event.messages_count > 0 %}
