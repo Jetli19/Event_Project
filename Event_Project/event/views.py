@@ -81,12 +81,12 @@ def create_event(request):
 @login_required
 def delete_event(request, pk):
     event = Event.objects.get(id=pk)
-    if event.messages_count() == 0:  # pokud v místnosti není žádná zpráva
+    if event_comments.count() == 0:  # pokud v místnosti není žádná zpráva
         event.delete()               # tak místnost smažeme
 
         return redirect('events')
 
-    context = {'event': event, 'message_count': room.messages_count()}
+    context = {'event': event, 'message_count': event.messages_count()}
     return render(request, 'event/delete_event.html', context)
 
 
