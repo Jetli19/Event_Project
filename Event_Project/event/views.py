@@ -7,8 +7,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
 
-from event.models import Event
-
+from event.models import Event, Comment
 
 def home(request):
     events = Event.objects.all()  # najdeme všechny místnosti
@@ -29,7 +28,7 @@ def signup(request):
 @login_required
 def event(request, pk):
     event = Event.objects.get(id=pk)  # najdeme místnost se zadaným id
-    # messages = Message.objects.filter(room=pk)  # vybereme všechny zprávy dané místnosti
+    comments = Comment.objects.filter(event=pk)  # vybereme všechny zprávy dané místnosti
 
     # pokud zadáme novou zprávu, musíme ji zpracovat
     if request.method == 'POST':
@@ -40,16 +39,16 @@ def event(request, pk):
             file = file_storage.save(upload.name, upload)  # uložíme soubor na disk
             file_url = file_storage.url(file)              # vytáhnu ze souboru url adresu a uložím
         body = request.POST.get('body').strip()
-        # if len(body) > 0 or request.FILES.get('upload'):
-        #     message = Message.objects.create(
-        #         user=request.user,
-        #         room=room,
-        #         body=body,
-        #         file=file_url                              # vložíme url souboru do databáze
-        #     )
+        if len(body) > 0 or request.FILES.get('upload'):
+             comment = Comment.objects.create(
+                 user=request.user,
+                 event=event,
+                 body=body,
+                 file=file_url                              # vložíme url souboru do databáze
+             )
         return HttpResponseRedirect(request.path_info)
 
-    context = {'event': event}
+    context = {'comment': comment}
     return render(request, "event/event.html", context)
 
 
@@ -81,7 +80,7 @@ def create_event(request):
 @login_required
 def delete_event(request, pk):
     event = Event.objects.get(id=pk)
-    if event_comments.count() == 0:  # pokud v místnosti není žádná zpráva
+    if event.messages_count() == 0:  # pokud v místnosti není žádná zpráva
         event.delete()               # tak místnost smažeme
 
         return redirect('events')
