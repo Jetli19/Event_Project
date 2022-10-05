@@ -2,14 +2,15 @@
 <nav>
   <ul>
     <li><a href="{% url 'home' %}">Home</a> </li>
-
-    <li><a href="{% url 'home' %}">Create event</a> </li>
-    <li><a href="{% url 'home' %}">Event</a> </li>
+    {% if request.user.is_authenticated %}
+    <li><a href="{% url 'create_event' %}">Create event</a> </li>
+    <li><a href="{% url 'events' %}">Events</a> </li>
     <li><a href="{% url 'home' %}">Users</a> </li>
 
-    <li class="last-item">User: <i>{{ request.user.username }} </i><a href="{% url 'home' %}"> Logout </a></li>
-
+    <li class="last-item">User: <i>{{ request.user.username }} </i><a href="{% url 'logout' %}"> Logout </a></li>
+    {% endif %}
+    {% if not request.user.is_authenticated %}
     <li class="last-item"><a href="{% url 'login' %}">Login/Signup</a></li>
-
-   </ul>
+    {% endif %}
+ </ul>
 </nav>

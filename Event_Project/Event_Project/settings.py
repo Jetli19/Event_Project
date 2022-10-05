@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'event',
     'accounts',
 ]
@@ -124,6 +125,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# login and authentication - PRIDALI SME MY
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'login'
+# Login and authentication
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "login"
