@@ -18,24 +18,24 @@ class Event(models.Model):
         return self.name
 
     def comments_count(self):
-         event_comments = self.comment_set.all()
-         return event_comments.count()
+        event_comments = self.comment_set.all()
+        return event_comments.count()
 
     def last_comment_time(self):
-         event_comment = self.comment_set.all()[0]
-         return event_comment.updated
+        event_comments = self.comment_set.all()[0]
+        return event_comments.updated
 
 
 class Comment(models.Model):
-     user = models.ForeignKey(User, on_delete=models.CASCADE)
-     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-     body = models.TextField(null=False, blank=False)
-     file = models.TextField(null=True)  # file atribute in model
-     updated = models.DateTimeField(auto_now=True)
-     created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    body = models.TextField(null=False, blank=False)
+    file = models.TextField(null=True)  # file atribute in model
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
 
-     class Meta:
-         ordering = ['-updated', '-created']
+    class Meta:
+        ordering = ['-updated', '-created']
 
-     def __str__(self):
-         return self.body[0:50]
+    def __str__(self):
+        return self.body[0:50]

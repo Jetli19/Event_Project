@@ -9,6 +9,7 @@ from django.views.generic import UpdateView
 
 from event.models import Event, Comment
 
+
 def home(request):
     events = Event.objects.all()  # najdeme všechny místnosti
 
@@ -23,6 +24,22 @@ def login(request):
 
 def signup(request):
     return render(request, 'account/signup.html')
+
+@login_required
+def search(request):
+    if request.method == 'POST': # pokial posleme dotaz z formulara
+        s = request.POST.get('search') # z odeslane promenne si vytiahnem co chcem hladat
+        s = s.strip()                    # ak da niekto do contextoveho okna prazdne a enter
+        if len(s) > 0:
+            events = Event.objects.filter(name__contains=s) # vyfiltruje miestnosti
+            comments = Comment.objects.filter(body__contains=s) # vyfiltruje spravy
+
+            context = {'events': events, 'comments': comments, 'search': s} # ulozi do contextu
+            return render(request, 'event/search.html', context)  # a vyrenderuje a odosle na search.html
+        else:
+            context = {'events': None, 'comments': None} # ak by bol prazdnu formular alebo niekto len v url dal search
+            # return redirect ('home') # alebo 2.alternativa vrati to na home
+    return redirect('home') #  tu je pouzita uz 2. atlernativa
 
 
 @login_required
@@ -40,15 +57,15 @@ def event(request, pk):
             file_url = file_storage.url(file)              # vytáhnu ze souboru url adresu a uložím
         body = request.POST.get('body').strip()
         if len(body) > 0 or request.FILES.get('upload'):
-             comment = Comment.objects.create(
-                 user=request.user,
-                 event=event,
-                 body=body,
-                 file=file_url                              # vložíme url souboru do databáze
-             )
+            comment = Comment.objects.create(
+                user=request.user,
+                event=event,
+                body=body,
+                file=file_url                              # vložíme url souboru do databáze
+            )
         return HttpResponseRedirect(request.path_info)
 
-    context = {'comment': comment}
+    context = {'event': event, 'comments': comments}
     return render(request, "event/event.html", context)
 
 
@@ -80,12 +97,12 @@ def create_event(request):
 @login_required
 def delete_event(request, pk):
     event = Event.objects.get(id=pk)
-    if event.messages_count() == 0:  # pokud v místnosti není žádná zpráva
+    if event.comments_count() == 0:  # pokud v místnosti není žádná zpráva
         event.delete()               # tak místnost smažeme
 
         return redirect('events')
 
-    context = {'event': event, 'message_count': event.messages_count()}
+    context = {'event': event, 'comment_count': event.comments_count()}
     return render(request, 'event/delete_event.html', context)
 
 
@@ -94,3 +111,18 @@ def delete_event_yes(request, pk):
     event = Event.objects.get(id=pk)
     event.delete()
     return redirect('events')
+
+
+class EventEditForm(ModelForm):
+
+    class Meta:
+        model = Event
+        fields = '__all__'
+
+
+@method_decorator(login_required, name='dispatch')
+class EditEvent(UpdateView):
+    template_name = 'event/edit_event.html'
+    model = Event
+    form_class = EventEditForm
+    success_url = reverse_lazy('events')
