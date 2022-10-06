@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>Výsledky hledání výrazu: "{{search}}"</h1>
+    <h2>Events:</h2>
+    <ul>
+        {% for event in events %}
+            <li>{{ event.name }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Comments:</h2>
+    <ul>
+        {% for comment in comments %}
+            <li><b>{{ comment.user }}:</b> {{ comment.body }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

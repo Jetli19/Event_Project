@@ -5,8 +5,8 @@
 {% block title %}Events{% endblock %}
 
 {% block content %}
-    <div class="list-of-rooms">List of events:</div>
-    <div class="rooms-list">
+    <div class="list-of-events">List of events:</div>
+    <div class="events-list">
         <ul>
             {% for event in events %}
             <li>
@@ -19,10 +19,10 @@
                         <a href="{% url 'edit_event' event.id %}">🖉</a>
                     {% endif %}
                 {% endif %}
-                {% if event.messages_count > 0 %}
-                    ({{ event.messages_count }} messages, last message date: {{ event.last_message_time }})
+                {% if event.comments_count > 0 %}
+                    ({{ event.comments_count }} comments, last comment date: {{ event.last_comment_time }})
                 {% else %}
-                    (no message yet)
+                    (no comment yet)
                 {% endif %}
             </li>
             {% endfor %}

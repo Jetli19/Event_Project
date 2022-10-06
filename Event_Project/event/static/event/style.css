@@ -19,14 +19,14 @@ header {
 
 #search input.text {
    padding: 10px 40px 10px 10px;
-   background: rgba(222, 231, 250, 1) url(/static/chatterbox/search.png) top right no-repeat;
+   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
    color: black;
    width: 200px;
    border: solid 1px #3c3c3c;
 }
 #search .search-button{
    padding: 10px 40px 10px 10px;
-   background: rgba(222, 231, 250, 1) url(/static/chatterbox/search.png) top right no-repeat;
+   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
    color: black;
    width: 200px;
    border: solid 1px #3c3c3c;
@@ -62,7 +62,7 @@ nav li {
     font-size: 32px;
 }
 
-/* rooms.html */
+/* events.html */
 .list-of-events {
     font-size: 32px;
 }
@@ -71,7 +71,7 @@ nav li {
     list-style: none;
 }
 
-/* room.html */
+/* event.html */
 .event-descr {
     font-size: 20px;
     margin-bottom: 20px;
@@ -81,7 +81,7 @@ nav li {
     font-size: 20px; /* new */
 }                    /* new */
 
-.message-form {
+.comment-form {
     margin-bottom: 20px;
 }
 
@@ -93,10 +93,10 @@ input[type=submit] {
     width: 50px;
 }
 
-.messages-box {
+.comments-box {
 }
 
-.other-message-body {
+.other-comment-body {
     background: white;
     width: 80%;
     border: solid 3px #4432a8;
@@ -105,18 +105,18 @@ input[type=submit] {
     margin-bottom: 10px;
 }
 
-.my-message {
+.my-comment {
 
 }
 
-.my-message-info {
+.my-comment-info {
     font-size: 14px;
     width: 20%;
     margin-right: 0;
     margin-left: auto;
 }
 
-.my-message-file {
+.my-comment-file {
     width: 50px;
     border: solid 2px #b81a51;
     margin-top: -15px;
@@ -124,7 +124,7 @@ input[type=submit] {
     margin-left: auto;
 }
 
-.other-message-file {
+.other-comment-file {
     width: 50px;
     border: solid 2px #b81a51;
     margin-top: -15px;
@@ -132,20 +132,20 @@ input[type=submit] {
     margin-right: auto;
 }
 
-.other-message-info {
+.other-comment-info {
     font-size: 14px;
     width: 20%;
 }
 
-.message-user {
+.comment-user {
     font-weight: bold;
 }
 
-.message-time {
+.comment-time {
     font-style: italic;
 }
 
-.my-message-body {
+.my-comment-body {
     background: white;
     width: 80%;
     border: solid 3px #b81a51;
@@ -156,7 +156,7 @@ input[type=submit] {
     margin-left: auto;
 }
 
-/* create_room.html */
+/* create_event.html */
 .form-name {
     margin-bottom: 15px;
 }

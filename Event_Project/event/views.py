@@ -27,6 +27,23 @@ def signup(request):
 
 
 @login_required
+def search(request):
+    if request.method == 'POST':  # pokud pošleme dotaz z formuláře
+        s = request.POST.get('search')                       # z odeslané proměnné si vytáhnu, co chci hledat
+        s = s.strip()                                        # ořízneme prázdné znaky
+        if len(s) > 0:                                       # pkud s obsahuje alespoň jeden znak
+            events = Event.objects.filter(name__contains=s)        # vyfiltruji místnosti dle zadaného řetězce
+            comments = Comment.objects.filter(body__contains=s)  # vyfiltruji zprávy dle zadaného řetezce
+
+            context = {'events': events, 'comments': comments, 'search': s}     # výsledky uložím do kontextu
+            return render(request, "event/search.html", context)  # vykreslíme stránku s výsledky
+        return redirect('home')
+        # pokud POST nebyl odeslán
+    # context = {'rooms': None, 'messages': None}        # místnosti i zprávy budou prázdné
+    return redirect('home')                              # případně lze přesměrovat na jinou stránku
+
+
+@login_required
 def event(request, pk):
     event = Event.objects.get(id=pk)  # najdeme místnost se zadaným id
     comments = Comment.objects.filter(event=pk)  # vybereme všechny zprávy dané místnosti

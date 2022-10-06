@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 import event.views
+import profiles.views
 
 
 urlpatterns = [
@@ -25,10 +26,18 @@ urlpatterns = [
     path('', event.views.home, name='home'),
     # path('login/', event.views.login, name='login'),
     path('signup/', event.views.signup, name='signup'),
+    path('search/', event.views.search, name='search'),
 
     path('event/<str:pk>/', event.views.event, name="event"),
     path('events/', event.views.events, name='events'),
 
+    #PROFILES APLIKACE
+    path('users/', profiles.views.profiles_list, name='profiles'),
+    path('user/<pk>/', profiles.views.user_profile, name='profile'),
+    path('edituser/', profiles.views.edit_profile, name='editprofile'),
+    path('createprofile/', profiles.views.create_profile, name='createprofile'),
+
+    #create room
     path('create_event/', event.views.create_event, name="create_event"),
 
     path('delete_event/<str:pk>/', event.views.delete_event, name='delete_event'),
@@ -40,4 +49,4 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),  # vsetky ostatne authorizacne urls
 
     path("__reload__/", include("django_browser_reload.urls"))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # add static
