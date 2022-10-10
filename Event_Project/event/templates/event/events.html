@@ -19,6 +19,7 @@
                         <a href="{% url 'edit_event' event.id %}">🖉</a>
                     {% endif %}
                 {% endif %}
+                <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
                 {% if event.comments_count > 0 %}
                     ({{ event.comments_count }} comments, last comment date: {{ event.last_comment_time }})
                 {% else %}

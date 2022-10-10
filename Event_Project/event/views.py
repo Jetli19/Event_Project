@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
-
+from django.contrib.auth.models import AbstractUser, User
 from event.models import Event, Comment
 
 
@@ -16,10 +16,6 @@ def home(request):
     context = {'events': events}
 
     return render(request, 'event/home.html', context)
-
-
-def login(request):
-    return render(request, 'event/login.html')
 
 
 def signup(request):
@@ -47,6 +43,7 @@ def search(request):
 def event(request, pk):
     event = Event.objects.get(id=pk)  # najdeme místnost se zadaným id
     comments = Comment.objects.filter(event=pk)  # vybereme všechny zprávy dané místnosti
+    participants = event.participants
 
     # pokud zadáme novou zprávu, musíme ji zpracovat
     if request.method == 'POST':
@@ -66,7 +63,7 @@ def event(request, pk):
             )
         return HttpResponseRedirect(request.path_info)
 
-    context = {'event': event, 'comments': comments}
+    context = {'event': event, 'comments': comments, 'participants': participants}
     return render(request, "event/event.html", context)
 
 
@@ -83,11 +80,15 @@ def create_event(request):
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         descr = request.POST.get('descr').strip()
+        start = request.POST.get('start')
+        end = request.POST.get('end')
         if len(name) > 0 and len(descr) > 0:
             event = Event.objects.create(
                 host=request.user,
                 name=name,
-                description=descr
+                description=descr,
+                start_event=start,
+                end_event=end,
             )
 
             return redirect('event', pk=event.id)
@@ -127,3 +128,21 @@ class EditEvent(UpdateView):
     model = Event
     form_class = EventEditForm
     success_url = reverse_lazy('events')
+
+
+@method_decorator(login_required, name='dispatch')
+class JoinEvent(UpdateView):
+    template_name = 'event/event.html'
+    model = Event
+    form_class = EventEditForm
+    success_url = reverse_lazy('events')
+
+    def __init__(self):
+        self.event = None
+        self.user = None
+
+    def join_event(self, pk1, pk2):
+        self.event = Event.objects.get(id=pk1)
+        self.user = User.objects.get(id=pk2)
+        self.event.participants.add(self.user)
+        return redirect('events')

@@ -8,6 +8,19 @@
         Description: {{ event.description }}
     </div>
 
+    <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+    <div>
+    Participants:
+    {% for participant in event.participants.all %}
+        {{ participant }}
+    {% endfor %}
+    </div>
+<!-- TODO opravit -->
+    <div class="event_date">
+        Start of event: <b>{{ Event.start }}</b> <br>
+        End of event: <b>{{ Event.end }}</b> <br>
+    </div>
+<!-- TODO opravit -->
     <div class="comment-form">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}

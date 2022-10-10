@@ -1,0 +1,180 @@
+/* common styles */
+body {
+    background: black;
+    color: grey;
+}
+
+header {
+    font-size: 40px;
+    text-align: center; /* new */
+}
+
+/* css for search */
+#search {
+   position: absolute;
+   top: 10px;
+   right: 28px;
+   height: 50px;
+   line-height: 50px;
+}
+
+#search input.text {
+   padding: 10px 40px 10px 10px;
+   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
+   color: black;
+   width: 200px;
+   border: solid 1px #3c3c3c;
+   margin-right: 20px;
+}
+#search .search-button{
+   padding: 10px 40px 10px 10px;
+   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
+   color: black;
+   width: 200px;
+   border: solid 1px #3c3c3c;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin: -3px;
+    /*
+    margin-right: 10px;
+    margin-left: 10px;
+    */
+    border: solid 2px red; /* was: #4432a8 */
+    padding: 10px;
+}
+
+.last-item{
+    float: right;
+    margin-right: 40px;
+}
+
+/* home.html */
+.user_hello {
+    font-size: 32px;
+    padding-bottom: 15px;
+}
+
+.welcome {
+    font-size: 32px;
+    margin-left: 40px;
+    text-align: center;
+}
+
+/* events.html */
+.list-of-events {
+    font-size: 32px;
+}
+
+.events-list ul {
+    list-style: none;
+}
+
+/* event.html */
+.event-descr {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.event-page {        /* new */
+    font-size: 20px; /* new */
+}                    /* new */
+
+.comment-form {
+    margin-bottom: 20px;
+}
+
+input[type=text] {
+    width: 400px;
+}
+
+input[type=submit] {
+    width: 50px;
+}
+
+.comments-box {
+}
+
+.other-comment-body {
+    background: white;
+    width: 80%;
+    border: solid 3px #4432a8;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.my-comment {
+
+}
+
+.my-comment-info {
+    font-size: 14px;
+    width: 20%;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.my-comment-file {
+    width: 50px;
+    border: solid 2px #b81a51;
+    margin-top: -15px;
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+.other-comment-file {
+    width: 50px;
+    border: solid 2px #b81a51;
+    margin-top: -15px;
+    margin-left: 10px;
+    margin-right: auto;
+}
+
+.other-comment-info {
+    font-size: 14px;
+    width: 20%;
+}
+
+.comment-user {
+    font-weight: bold;
+}
+
+.comment-time {
+    font-style: italic;
+}
+
+.my-comment-body {
+    background: white;
+    width: 80%;
+    border: solid 3px #b81a51;
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+
+/* create_event.html */
+.form-name {
+    margin-bottom: 15px;
+}
+
+.label {
+    width: 115px;
+    float:left;
+}
+
+.submit {
+    margin-left: 90px;
+}
+
+/* login.html */
+.form-row {
+    margin-bottom: 15px;
+}
