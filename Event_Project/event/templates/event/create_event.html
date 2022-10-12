@@ -10,7 +10,7 @@
     <label for="descr">Description:</label>
     <input type="text" name="descr" id="descr"> <br>
     <label for="start_date">Start Date:</label>
-    <input type="date" name="end_date" id="start_date"> <br>
+    <input type="date" name="start_date" id="start_date"> <br>
     <label for="end_date">End Date:</label>
     <input type="date" name="end_date" id="end_date"> <br>
     {% if message %}
@@ -19,10 +19,10 @@
     <button type="submit">Create</button>
   </form>
 
-<!--  <script>-->
-<!--    var today1 = new Date().toISOString().split('T')[0];-->
-<!--    document.getElementsByName("setTodaysDate1")[0].setAttribute('min', today1);-->
-<!--    var today2 = new Date().toISOString().split('T')[0];-->
-<!--    document.getElementsByName("setTodaysDate2")[0].setAttribute('min', today2);-->
-<!--  </script>-->
+  <script>
+    var today1 = new Date().toISOString().split('T')[0];
+    document.getElementsByName("start_date")[0].setAttribute('min', today1);
+    var today2 = new Date().toISOString().split('T')[0];
+    document.getElementsByName("end_date")[0].setAttribute('min', today2);
+  </script>
 {% endblock %}
