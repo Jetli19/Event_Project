@@ -1,9 +1,7 @@
 {% extends 'main.html' %}
 
-{% block title %}Events - search{% endblock %}
-
 {% block content %}
-    <h1>Výsledky hledání: "{{ search }}" </h1>
+    <h1>Výsledky hledání výrazu: "{{search}}"</h1>
     <h2>Events:</h2>
     <ul>
         {% for event in events %}

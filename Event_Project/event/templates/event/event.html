@@ -3,9 +3,22 @@
 {% block title %}Event: {{ event.name }}{% endblock %}
 
 {% block content %}
-    <div class="room-descr">
+    <div class="event-descr">
         You are in event <b>{{ event.name }}</b> <br>
         Description: {{ event.description }}
+    </div>
+
+    <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+    <div>
+    Participants:
+    {% for participant in event.participants.all %}
+        {{ participant }}
+    {% endfor %}
+    </div>
+
+    <div class="event_date">
+        Start of event: <b>{{ event.start_event }}</b> <br>
+        End of event: <b>{{ event.end_event }}</b> <br>
     </div>
 
     <div class="comment-form">

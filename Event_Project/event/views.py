@@ -6,8 +6,10 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
-
+from django.contrib.auth.models import AbstractUser, User
 from event.models import Event, Comment
+
+from datetime import * # date, datetime
 
 
 def home(request):
@@ -18,34 +20,32 @@ def home(request):
     return render(request, 'event/home.html', context)
 
 
-def login(request):
-    return render(request, 'event/login.html')
-
-
 def signup(request):
     return render(request, 'account/signup.html')
 
+
 @login_required
 def search(request):
-    if request.method == 'POST': # pokial posleme dotaz z formulara
-        s = request.POST.get('search') # z odeslane promenne si vytiahnem co chcem hladat
-        s = s.strip()                    # ak da niekto do contextoveho okna prazdne a enter
-        if len(s) > 0:
-            events = Event.objects.filter(name__contains=s) # vyfiltruje miestnosti
-            comments = Comment.objects.filter(body__contains=s) # vyfiltruje spravy
+    if request.method == 'POST':  # pokud pošleme dotaz z formuláře
+        s = request.POST.get('search')                       # z odeslané proměnné si vytáhnu, co chci hledat
+        s = s.strip()                                        # ořízneme prázdné znaky
+        if len(s) > 0:                                       # pkud s obsahuje alespoň jeden znak
+            events = Event.objects.filter(name__contains=s)        # vyfiltruji místnosti dle zadaného řetězce
+            comments = Comment.objects.filter(body__contains=s)  # vyfiltruji zprávy dle zadaného řetezce
 
-            context = {'events': events, 'comments': comments, 'search': s} # ulozi do contextu
-            return render(request, 'event/search.html', context)  # a vyrenderuje a odosle na search.html
-        else:
-            context = {'events': None, 'comments': None} # ak by bol prazdnu formular alebo niekto len v url dal search
-            # return redirect ('home') # alebo 2.alternativa vrati to na home
-    return redirect('home') #  tu je pouzita uz 2. atlernativa
+            context = {'events': events, 'comments': comments, 'search': s}     # výsledky uložím do kontextu
+            return render(request, "event/search.html", context)  # vykreslíme stránku s výsledky
+        return redirect('home')
+        # pokud POST nebyl odeslán
+    # context = {'rooms': None, 'messages': None}        # místnosti i zprávy budou prázdné
+    return redirect('home')                              # případně lze přesměrovat na jinou stránku
 
 
 @login_required
 def event(request, pk):
     event = Event.objects.get(id=pk)  # najdeme místnost se zadaným id
     comments = Comment.objects.filter(event=pk)  # vybereme všechny zprávy dané místnosti
+    participants = event.participants
 
     # pokud zadáme novou zprávu, musíme ji zpracovat
     if request.method == 'POST':
@@ -65,7 +65,7 @@ def event(request, pk):
             )
         return HttpResponseRedirect(request.path_info)
 
-    context = {'event': event, 'comments': comments}
+    context = {'event': event, 'comments': comments, 'participants': participants}
     return render(request, "event/event.html", context)
 
 
@@ -79,17 +79,37 @@ def events(request):
 
 @login_required
 def create_event(request):
+    today = date.today()
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         descr = request.POST.get('descr').strip()
-        if len(name) > 0 and len(descr) > 0:
+        start_event = datetime.strptime(request.POST.get('start_date'), '%Y-%m-%d').date()
+        end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
+        if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event:
             event = Event.objects.create(
                 host=request.user,
                 name=name,
-                description=descr
+                description=descr,
+                start_event=start_event,
+                end_event=end_event
             )
 
             return redirect('event', pk=event.id)
+
+        elif start_event < today:
+            message = 'Start of the event is set in the past.'
+            context = {'message': message}
+            return render(request, 'event/create_event.html', context)
+        elif end_event < today:
+            message = 'End of the event is set in the past.'
+            context = {'message': message}
+            return render(request, 'event/create_event.html', context)
+        elif start_event > end_event:
+            message = 'Start of the event is set after the end of the event.'
+            context = {'message': message}
+            return render(request, 'event/create_event.html', context)
+        else:
+            pass
 
     return render(request, 'event/create_event.html')
 
@@ -126,3 +146,22 @@ class EditEvent(UpdateView):
     model = Event
     form_class = EventEditForm
     success_url = reverse_lazy('events')
+
+
+@method_decorator(login_required, name='dispatch')
+class JoinEvent(UpdateView):
+    template_name = 'event/event.html'
+    model = Event
+    form_class = EventEditForm
+    success_url = reverse_lazy('events')
+
+    def __init__(self):
+        self.event = None
+        self.user = None
+
+    def join_event(self, pk1, pk2):
+        self.event = Event.objects.get(id=pk1)
+        self.user = User.objects.get(id=pk2)
+        self.event.participants.add(self.user)
+        return redirect('events')
+

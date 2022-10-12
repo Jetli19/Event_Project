@@ -10,13 +10,13 @@
 <div class="email"> Email: {{ profile.user.email }}</div>
 <div class="photo"> Photo: {{ profile.photo }}
     <div class="my-profile-file">
-        <a href="{{ profile.photo }}"><img src="{{ profile.photo }}" width="50px"></a>
+        <a href="{{ profile.photo }}" target="_blank"><img src="{{ profile.photo }}" alt="profile photo" width="50px"></a>
     </div>
 </div>
 <div class="about-me"> About me: {{ profile.about_me }}</div>
 
 {% if profile.user.id == request.user.id %}
-    <a href="{% url 'editprofile' %}">EDIT PROFILE</a>
+<a href="{% url 'editprofile' %}">EDIT PROFILE</a>
 {% endif %}
 
 {% endblock %}

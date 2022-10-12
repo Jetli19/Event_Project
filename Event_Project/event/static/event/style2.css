@@ -1,6 +1,7 @@
 /* common styles */
 body {
-    background: grey;
+    background: black;
+    color: grey;
 }
 
 header {
@@ -23,6 +24,7 @@ header {
    color: black;
    width: 200px;
    border: solid 1px #3c3c3c;
+   margin-right: 20px;
 }
 #search .search-button{
    padding: 10px 40px 10px 10px;
@@ -43,7 +45,7 @@ nav li {
     margin-right: 10px;
     margin-left: 10px;
     */
-    border: solid 2px red; /* was: #4432a8 */ 
+    border: solid 2px red; /* was: #4432a8 */
     padding: 10px;
 }
 
@@ -60,6 +62,8 @@ nav li {
 
 .welcome {
     font-size: 32px;
+    margin-left: 40px;
+    text-align: center;
 }
 
 /* events.html */
@@ -173,8 +177,4 @@ input[type=submit] {
 /* login.html */
 .form-row {
     margin-bottom: 15px;
-}
-
-.error-date {
-    color: red;
 }

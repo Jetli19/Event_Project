@@ -12,7 +12,6 @@ class Profile(models.Model):
     signed_up = models.DateTimeField(auto_now_add=True)
 
 
-
 class OnLineUsers(models.Model):
     logged = models.OneToOneField(User, on_delete=models.CASCADE)
 

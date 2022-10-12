@@ -5,25 +5,28 @@
 {% block title %}Events{% endblock %}
 
 {% block content %}
-    <div class="list-of-rooms">List of events:</div>
-    <div class="rooms-list">
+    <div class="list-of-events">List of events:</div>
+    <div class="events-list">
         <ul>
             {% for event in events %}
             <li>
                 <a href="{% url 'event' event.id %}">{{ event.name }}</a> {{ event.description }}
                 {% if event.host %}
                     Host: {{ event.host }}
-                    {% if event.host.id == request.user.id %}  <!-- Pokud je přihlášený uživatel "majitel" Eventu -->
+                    {% if event.host.id == request.user.id %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
                         <a href="{% url 'delete_event' event.id %}">
                             <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
                         <a href="{% url 'edit_event' event.id %}">🖉</a>
                     {% endif %}
                 {% endif %}
+                <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+                {% comment %}
                 {% if event.comments_count > 0 %}
                     ({{ event.comments_count }} comments, last comment date: {{ event.last_comment_time }})
                 {% else %}
                     (no comment yet)
                 {% endif %}
+                {% endcomment %}
             </li>
             {% endfor %}
         </ul>
