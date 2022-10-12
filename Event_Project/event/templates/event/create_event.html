@@ -20,9 +20,10 @@
   </form>
 
   <script>
-    var today1 = new Date().toISOString().split('T')[0];
-    document.getElementsByName("start_date")[0].setAttribute('min', today1);
-    var today2 = new Date().toISOString().split('T')[0];
-    document.getElementsByName("end_date")[0].setAttribute('min', today2);
+    <!--not allow user set up date before today's date-->
+    var today_start = new Date().toISOString().split('T')[0];
+    document.getElementsByName("start_date")[0].setAttribute('min', today_start);
+    var today_end = new Date().toISOString().split('T')[0];
+    document.getElementsByName("end_date")[0].setAttribute('min', today_end);
   </script>
 {% endblock %}
