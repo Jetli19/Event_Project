@@ -15,12 +15,12 @@
         {{ participant }}
     {% endfor %}
     </div>
-<!-- TODO opravit -->
+
     <div class="event_date">
-        Start of event: <b>{{ Event.start }}</b> <br>
-        End of event: <b>{{ Event.end }}</b> <br>
+        Start of event: <b>{{ event.start_event }}</b> <br>
+        End of event: <b>{{ event.end_event }}</b> <br>
     </div>
-<!-- TODO opravit -->
+
     <div class="comment-form">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
