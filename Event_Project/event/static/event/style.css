@@ -1,6 +1,6 @@
 /* common styles */
 body {
-    background: grey;
+    background: #DDDDDD;
 }
 
 header {
@@ -175,6 +175,6 @@ input[type=submit] {
     margin-bottom: 15px;
 }
 
-.error-date {
-    color: red;
+# #warn {
+   color: red;
 }

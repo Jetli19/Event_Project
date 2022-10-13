@@ -1,11 +1,6 @@
-# from certifi.__main__ import args
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User
-# from django.db import models ###
-# from django.db.models import DEFERRED ## ## ##
 from datetime import *
-
-# from mesonbuild.interpreter import kwargs
 
 
 class Event(models.Model):
@@ -18,25 +13,8 @@ class Event(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __init__(self, *args, **kwargs):
-    #def __init__(self):
-        #super(Event, self).__init__(*args, **kwargs)
-
-        super().__init__(*args, **kwargs)
-
-        today = date.today()
-
-        if self.start_event < today:
-            raise ValueError('Start of the event is in the past.')
-        elif self.end_event < today:
-            raise ValueError('End of the event is in the past.')
-        elif self.start_event > self.end_event:
-            raise ValueError('Start event is after end event.')
-
     class Meta:
         ordering = ['-updated', '-created']
-        # abstract = True
-
 
     def __str__(self):
         return self.name

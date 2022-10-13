@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_advanced_password_validation',  # set up  min max length password
 
     # browser reload
     'django_browser_reload',
@@ -106,6 +107,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'django_advanced_password_validation.advanced_password_validation.MaximumLengthValidator',
+        'OPTIONS': {
+            'max_length': 30
+        }
+    },
+
 ]
 
 

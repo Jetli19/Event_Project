@@ -14,8 +14,16 @@
     <label for="end_date">End Date:</label>
     <input type="date" name="end_date" id="end_date"> <br>
     {% if message %}
-      <div class="error-date"> {{ message }} </div>
+    <div class="error_date"> {{ message }} </div>
     {% endif %}
     <button type="submit">Create</button>
   </form>
+
+  <script>
+    <!--not allow user set up date before today's date-->
+    var today_start = new Date().toISOString().split('T')[0];
+    document.getElementsByName("start_date")[0].setAttribute('min', today_start);
+    var today_end = new Date().toISOString().split('T')[0];
+    document.getElementsByName("end_date")[0].setAttribute('min', today_end);
+  </script>
 {% endblock %}

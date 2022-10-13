@@ -4,11 +4,31 @@
 
 {% block content %}
     <h2>Sign up</h2>
+
+                <script type="text/javascript">
+
+                function control() {
+
+                    var usernameL = document.getElementById("id_username").value.length;
+
+                    if (usernameL > 30)
+
+                        {document.getElementById("warn").innerHTML = "The maximal allowed length of username is 30 characters.";
+                        return false;}
+                        else return true;
+
+                }
+                </script>
+
     <div class="box">
-        <form method="post">
+        <form id="signingup" action="/accounts/signup/" method="post" onSubmit="control();">
             {% csrf_token %}
             {{ form.as_p }}
+
             <button type="submit">Sign Up</button>
         </form>
     </div>
+
+    <div id="warn"></div>
+
 {% endblock %}

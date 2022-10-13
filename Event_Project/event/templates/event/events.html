@@ -20,13 +20,11 @@
                     {% endif %}
                 {% endif %}
                 <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
-                {% comment %}
                 {% if event.comments_count > 0 %}
                     ({{ event.comments_count }} comments, last comment date: {{ event.last_comment_time }})
                 {% else %}
                     (no comment yet)
                 {% endif %}
-                {% endcomment %}
             </li>
             {% endfor %}
         </ul>

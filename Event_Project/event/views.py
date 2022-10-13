@@ -8,8 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
 from django.contrib.auth.models import AbstractUser, User
 from event.models import Event, Comment
-
-from datetime import * # date, datetime
+from datetime import *
 
 
 def home(request):
@@ -79,40 +78,28 @@ def events(request):
 
 @login_required
 def create_event(request):
-    today = date.today()
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         descr = request.POST.get('descr').strip()
         start_event = datetime.strptime(request.POST.get('start_date'), '%Y-%m-%d').date()
         end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
-        if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event:
+        if len(name) > 0 and len(descr) > 0 and start_event <= end_event:
             event = Event.objects.create(
                 host=request.user,
                 name=name,
                 description=descr,
                 start_event=start_event,
-                end_event=end_event
+                end_event=end_event,
             )
 
             return redirect('event', pk=event.id)
 
-        elif start_event < today:
-            message = 'Start of the event is set in the past.'
-            context = {'message': message}
-            return render(request, 'event/create_event.html', context)
-        elif end_event < today:
-            message = 'End of the event is set in the past.'
-            context = {'message': message}
-            return render(request, 'event/create_event.html', context)
         elif start_event > end_event:
             message = 'Start of the event is set after the end of the event.'
             context = {'message': message}
             return render(request, 'event/create_event.html', context)
-        else:
-            pass
 
     return render(request, 'event/create_event.html')
-
 
 @login_required
 def delete_event(request, pk):
@@ -164,4 +151,3 @@ class JoinEvent(UpdateView):
         self.user = User.objects.get(id=pk2)
         self.event.participants.add(self.user)
         return redirect('events')
-
