@@ -81,8 +81,19 @@ def create_event(request):
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         descr = request.POST.get('descr').strip()
+
+        if not request.POST.get('start_date'):
+            return render(request, 'event/create_event.html')
+
         start_event = datetime.strptime(request.POST.get('start_date'), '%Y-%m-%d').date()
+
+        if not request.POST.get('end_date'):
+            return render(request, 'event/create_event.html')
+
         end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
+
+        # TODO: next if back to the version of mine:
+
         if len(name) > 0 and len(descr) > 0 and start_event <= end_event:
             event = Event.objects.create(
                 host=request.user,
