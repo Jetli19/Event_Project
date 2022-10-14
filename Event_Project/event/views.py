@@ -78,9 +78,21 @@ def events(request):
 
 @login_required
 def create_event(request):
+    today = date.today()
     if request.method == 'POST':
         name = request.POST.get('name').strip()
+
+        if not name:
+            empty_name = 'The title of the event cannot be empty.'
+            context = {'empty_name': empty_name}
+            return render(request, 'event/create_event.html', context)
+
         descr = request.POST.get('descr').strip()
+
+        if not descr:
+            empty_descr = 'The description of the event cannot be empty.'
+            context = {'empty_descr': empty_descr}
+            return render(request, 'event/create_event.html', context)
 
         if not request.POST.get('start_date'):
             return render(request, 'event/create_event.html')
@@ -92,23 +104,32 @@ def create_event(request):
 
         end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
 
-        # TODO: next if back to the version of mine:
-
-        if len(name) > 0 and len(descr) > 0 and start_event <= end_event:
+        if len(name) > 0 and len(
+                descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event:
             event = Event.objects.create(
                 host=request.user,
                 name=name,
                 description=descr,
                 start_event=start_event,
-                end_event=end_event,
+                end_event=end_event
             )
 
             return redirect('event', pk=event.id)
 
+        elif start_event < today:
+            message = 'Start of the event is set in the past.'
+            context = {'message': message}
+            return render(request, 'event/create_event.html', context)
+        elif end_event < today:
+            message = 'End of the event is set in the past.'
+            context = {'message': message}
+            return render(request, 'event/create_event.html', context)
         elif start_event > end_event:
             message = 'Start of the event is set after the end of the event.'
             context = {'message': message}
             return render(request, 'event/create_event.html', context)
+        else:
+            pass
 
     return render(request, 'event/create_event.html')
 

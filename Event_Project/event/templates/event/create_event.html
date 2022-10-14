@@ -7,8 +7,14 @@
     {% csrf_token %}
     <label for="name">Name:</label>
     <input type="text" name="name" id="name"> <br>
+      {% if empty_name %}
+        <div class="empty_name"> {{ empty_name }} </div>
+      {% endif %}
     <label for="descr">Description:</label>
     <input type="text" name="descr" id="descr"> <br>
+      {% if empty_descr %}
+        <div class="empty_descr"> {{ empty_descr }} </div>
+      {% endif %}
     <label for="start_date">Start Date:</label>
     <input type="date" name="start_date" id="start_date"> <br>
     <label for="end_date">End Date:</label>
