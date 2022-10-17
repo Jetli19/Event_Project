@@ -1,6 +1,6 @@
+from datetime import date
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
-from datetime import *
+from django.contrib.auth.models import User
 
 
 class Event(models.Model):
@@ -12,9 +12,12 @@ class Event(models.Model):
     end_event = models.DateField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    today = date.today()
+
+    file = models.TextField(null=True)  # file atribute in model
 
     class Meta:
-        ordering = ['-updated', '-created']
+        ordering = ['start_event', 'end_event']
 
     def __str__(self):
         return self.name

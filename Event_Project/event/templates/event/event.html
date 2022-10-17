@@ -5,7 +5,12 @@
 {% block content %}
     <div class="event-descr">
         You are in event <b>{{ event.name }}</b> <br>
-        Description: {{ event.description }}
+        Description: {{ event.description }} <br>
+        {% if event.file %}
+            <div class="create_event-file">
+                <a href="{{ event.file }}" target="_blank"><img src="{{ event.file }}" width="50px"></a>
+            </div>
+        {% endif %}
     </div>
 
     <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
@@ -26,7 +31,9 @@
             {% csrf_token %}
             <label for="body">Comment: </label>
             <textarea name="body" id="body" rows="1" cols="100"> </textarea>
-            <input type="file" name="upload" accept="*">  <!-- accept=".doc, .pdf, .txt", vsechno-->
+            <br>
+            You can upload an image file here: <input type="file" name="upload" accept="image/*">
+            <!-- accept = * == ".doc, .pdf, ... == everything-->
             <input type="submit" value="Send">
         </form>
     </div>
@@ -53,7 +60,7 @@
                         <span class="comment-time">{{ comment.created }}</span>
                     </div>
                     <div class="other-comment-body">{{ comment.body }}</div>
-                    {% if comment.file %}  <!-- zobrazit obrázek -->
+                    {% if comment.file %}  <!-- to show a picture -->
                         <div class="other-comment-file">
                             <a href="{{ comment.file }}" target="_blank"><img src="{{ comment.file }}" width="50px"></a>
                         </div>

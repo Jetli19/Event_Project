@@ -7,8 +7,35 @@
 
 <main>
     <div class="welcome"> Welcome in our Event project </div>
-
 </main>
+
+<div class="list-of-events">List of events:</div>
+    <div class="events-list">
+            {% for event in events %}
+            {% if event.end_event >= event.today %}
+            <ul>
+                <li>
+                {% if event.host %}
+                    Host: <b>{{ event.host }}</b> <br>
+                {% endif %}
+                <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
+                {{ event.description|slice:"0:50" }} <br>
+                {% if event.comments_count > 0 %}
+                    ({{ event.comments_count }} comments, last comment date: {{ event.last_comment_time }})
+                {% else %}
+                    (no comment yet)
+                {% endif %} <br>
+                <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+                {% if event.host.id == request.user.id %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
+                    <a href="{% url 'edit_event' event.id %}">🖉</a>
+                    <a href="{% url 'delete_event' event.id %}">
+                            <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
+                {% endif %}
+                </li>
+            </ul>
+            {% endif %}
+            {% endfor %}
+    </div>
 
 </body>
 {% endblock %}

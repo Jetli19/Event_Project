@@ -5,13 +5,13 @@
     <h2>Events:</h2>
     <ul>
         {% for event in events %}
-            <li>{{ event.name }}</li>
+            <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
         {% endfor %}
     </ul>
-    <h2>Comments:</h2>
-    <ul>
-        {% for comment in comments %}
-            <li><b>{{ comment.user }}:</b> {{ comment.body }}</li>
-        {% endfor %}
-    </ul>
+<!--    <h2>Comments:</h2>-->
+<!--    <ul>-->
+<!--        {% for comment in comments %}-->
+<!--            <li><b>{{ comment.user }}:</b> {{ comment.body }}</li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
 {% endblock %}

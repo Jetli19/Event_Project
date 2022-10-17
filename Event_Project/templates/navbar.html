@@ -6,8 +6,7 @@
     <li><a href="{% url 'create_event' %}">Create event</a> </li>
     <li><a href="{% url 'events' %}">Events</a> </li>
     <li><a href="{% url 'profiles' %}">Users</a> </li>
-
-    <li class="last-item">User: <i>{{ request.user.email }} </i><a href="{% url 'logout' %}"> Logout </a></li>
+    <li class="last-item">Logged in as: <i>{{ request.user.email }} </i><a href="{% url 'logout' %}"> Logout </a></li>
     {% endif %}
     {% if not request.user.is_authenticated %}
     <li class="last-item"><a href="{% url 'login' %}">Login/Signup</a></li>

@@ -1,6 +1,6 @@
 /* common styles */
 body {
-    background: grey;
+    background: #DDDDDD;
 }
 
 header {
@@ -43,7 +43,7 @@ nav li {
     margin-right: 10px;
     margin-left: 10px;
     */
-    border: solid 2px red; /* was: #4432a8 */ 
+    border: solid 2px red; /* was: #4432a8 */
     padding: 10px;
 }
 
@@ -173,4 +173,24 @@ input[type=submit] {
 /* login.html */
 .form-row {
     margin-bottom: 15px;
+}
+
+# #warn {
+   color: red;
+}
+
+.error_date {
+    color: red;
+}
+
+.empty_name {
+    color: red;
+}
+
+.empty_descr {
+    color: red;
+}
+
+.short_descr {
+    color: red;
 }

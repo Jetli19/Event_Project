@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', event.views.home, name='home'),
     # path('login/', event.views.login, name='login'),
-    path('signup/', event.views.signup, name='signup'),
+    # path('signup/', event.views.signup, name='signup'),
     path('search/', event.views.search, name='search'),
 
     path('event/<str:pk>/', event.views.event, name="event"),
