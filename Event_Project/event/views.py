@@ -10,6 +10,7 @@ from django.views.generic import UpdateView
 from django.contrib.auth.models import AbstractUser, User
 from event.models import Event, Comment
 from datetime import *
+from profiles.models import Profile
 
 
 def home(request):
@@ -20,21 +21,21 @@ def home(request):
     return render(request, 'event/home.html', context)
 
 
-def signup(request):
-    if not request.method == 'POST':
-        return render(request, 'accounts/signup.html')  # TODO: warning: changed: account/ -- > accounts/
-    elif request.method == 'POST':
-        email = request.POST.get('email')
-        if User.objects.filter(email__contains=email):
-            return render(request, 'accounts/signup.html')  # TODO: warning: changed: account/ -- > accounts/
-        else: # TODO - not functioning
-            # User.objects.create()
-            ## user = User.objects.create(
-            ## user = request.user
-            ##)
-            return render(request, 'event/home.html') # 'registration/login.html'
-
-    # return render(request, 'accounts/signup.html') # TODO: warning: changed: account/ -- > accounts/
+# def signup(request):
+#     if not request.method == 'POST':
+#         return render(request, 'accounts/signup.html')  # TODO: warning: changed: account/ -- > accounts/
+#     elif request.method == 'POST':
+#         email = request.POST.get('email')
+#         if User.objects.filter(email__contains=email):
+#             return render(request, 'accounts/signup.html')  # TODO: warning: changed: account/ -- > accounts/
+#         else: # TODO - not functioning
+#             # User.objects.create()
+#             ## user = User.objects.create(
+#             ## user = request.user
+#             ##)
+#             return render(request, 'event/home.html') # 'registration/login.html'
+#
+#     # return render(request, 'accounts/signup.html') # TODO: warning: changed: account/ -- > accounts/
 
 
 @login_required
@@ -85,8 +86,13 @@ def event(request, pk):
 @login_required
 def events(request):
     events = Event.objects.all()
+    try:
+        profile = Profile.objects.get(user=request.user)
+        admin = profile.admin
+    except:
+        admin = False
 
-    context = {'events': events}
+    context = {'events': events, 'admin': admin}
     return render(request, "event/events.html", context)
 
 
@@ -135,7 +141,8 @@ def create_event(request):
 
         end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
 
-        if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event or request.FILES.get('upload_cre'):
+        if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today\
+                and start_event <= end_event or request.FILES.get('upload_cre'):
             event = Event.objects.create(
                 host=request.user,
                 name=name,

@@ -6,6 +6,7 @@
     <div class="event-descr">
         You are in event <b>{{ event.name }}</b> <br>
         Description: {{ event.description }} <br>
+        Host: <b>{{ event.host }}</b> <br>
         {% if event.file %}
             <div class="create_event-file">
                 <a href="{{ event.file }}" target="_blank"><img src="{{ event.file }}" width="50px"></a>

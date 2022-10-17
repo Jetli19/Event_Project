@@ -30,6 +30,11 @@
               <a href="{% url 'delete_event' event.id %}">
                 <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
             {% endif %}
+            {% if admin %}
+              <a href="{% url 'edit_event' event.id %}">🖉</a>
+              <a href="{% url 'delete_event' event.id %}">
+                <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
+            {% endif %}
         </li>
       </ul>
     {% endfor %}
