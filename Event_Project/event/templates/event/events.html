@@ -14,6 +14,11 @@
                 Host: <b>{{ event.host }}</b> <br>
             {% endif %}
             <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
+            {% if event.file %}
+            <div class="create_event-file">
+              <a href="{{ event.file }}" target="_blank"><img src="{{ event.file }}" width="50px"></a>
+            </div>
+            {% endif %}
             <div class="event_date">
               Start of event: <b>{{ event.start_event }}</b> <br>
               End of event: <b>{{ event.end_event }}</b> <br>
@@ -24,14 +29,9 @@
             {% else %}
               (no comment yet)
             {% endif %} <br>
+            {% if event.host.id == request.user.id or admin %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
             <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
-            {% if event.host.id == request.user.id %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
-              <a href="{% url 'edit_event' event.id %}">🖉</a>
-              <a href="{% url 'delete_event' event.id %}">
-                <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
-            {% endif %}
-            {% if admin %}
-              <a href="{% url 'edit_event' event.id %}">🖉</a>
+            <a href="{% url 'edit_event' event.id %}">🖉</a>
               <a href="{% url 'delete_event' event.id %}">
                 <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
             {% endif %}

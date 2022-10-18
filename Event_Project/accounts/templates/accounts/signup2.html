@@ -6,18 +6,25 @@
 
   <h2>Sign up</h2>
 
-<div class="box">
-    <form id="signingup" method="post" onSubmit="return control();" action="/accounts/signup/">
-      {% csrf_token %}
-        <script type="text/javascript">
-          function control() {
-            var usernameL = document.getElementById("id_username").value.length;
-            if (usernameL > 50)
-              {document.getElementById("warn").innerHTML = "The maximal allowed length of username is 50 characters.";
-              return false;}
-              else return true;
-          }
-        </script>
+                <script type="text/javascript">
+
+                function control() {
+
+                    var usernameL = document.getElementById("id_username").value.length;
+
+                    if (usernameL > 50)
+
+                        {document.getElementById("warn").innerHTML = "The maximal allowed length of username is 50 characters.";
+                        return false;}
+                        else return true;
+
+                }
+                </script>
+
+    <div class="box">
+        <form id="signingup" method="post" onSubmit="return control()" action="/accounts/signup/">
+
+            {% csrf_token %}
 
       <p>
         <label for="id_username">Username:</label>
@@ -29,6 +36,9 @@
       <p>
         <label for="id_email">Email address:</label>
         <input type="email" name="email" maxlength="254" id="id_email">
+<!--        {% if email_exists %}-->
+<!--          <div class="email_exists"> {{ email_exists }} </div>-->
+<!--        {% endif %}-->
       </p>
 
       <p>

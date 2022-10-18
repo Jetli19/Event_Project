@@ -149,11 +149,11 @@ def create_event(request):
                 description=descr,
                 start_event=start_event,
                 end_event=end_event,
-                file = file_url
+                file=file_url
             )
 
-            # return redirect('event', pk=event.id)  # # NEW PA 17-1-v2
-            return HttpResponseRedirect(request.path_info)
+            return redirect('event', pk=event.id)
+            # return HttpResponseRedirect(request.path_info)
 
         elif start_event < today:
             message = 'Start of the event is set in the past.'
@@ -222,4 +222,11 @@ class JoinEvent(UpdateView):
         self.event = Event.objects.get(id=pk1)
         self.user = User.objects.get(id=pk2)
         self.event.participants.add(self.user)
+        return redirect('events')
+
+    @login_required
+    def unjoin_event(self, pk1, pk2):
+        self.event = Event.objects.get(id=pk1)
+        self.user = User.objects.get(id=pk2)
+        self.event.participants.remove(self.user)
         return redirect('events')

@@ -15,6 +15,7 @@
     </div>
 
     <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+    <a href="{% url 'unjoin_event' event.id request.user.id %}">Unjoin</a>
     <div>
     Participants:
     {% for participant in event.participants.all %}
