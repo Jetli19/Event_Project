@@ -3,6 +3,7 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
+
     <h2>Sign up</h2>
 
                 <script type="text/javascript">
@@ -11,9 +12,9 @@
 
                     var usernameL = document.getElementById("id_username").value.length;
 
-                    if (usernameL > 30)
+                    if (usernameL > 50)
 
-                        {document.getElementById("warn").innerHTML = "The maximal allowed length of username is 30 characters.";
+                        {document.getElementById("warn").innerHTML = "The maximal allowed length of username is 50 characters.";
                         return false;}
                         else return true;
 
@@ -21,14 +22,67 @@
                 </script>
 
     <div class="box">
-        <form id="signingup" action="/accounts/signup/" method="post" onSubmit="control();">
+        <form id="signingup" method="post" onSubmit="return control()" action="/accounts/signup/">
+
             {% csrf_token %}
-            {{ form.as_p }}
+
+    <p>
+    <label for="id_username">Username:</label>
+    <input type="text" name="username" maxlength="60" minlength="5" autofocus required id="id_username"> <!-- TODO: change: maxlength="50" -- ? -->
+    
+      <span class="helptext">Required 5 - 50 characters. Letters, digits and @/./+/-/_ only.</span> <br>
+
+      <div id="warn"></div>
+
+<!--      {% if error_username_len %}-->
+<!--          <div class="error_username_len"> {{ error_username_len }} </div>-->
+<!--      {% endif %}-->
+    
+    </p>
+
+  
+  <p>
+    <label for="id_email">Email address:</label>
+    <input type="email" name="email" maxlength="254" id="id_email">
+    <br>
+    {% if error_email_exists %}
+        <div class="error_email_exists"> {{ error_email_exists }} </div>
+    {% endif %}
+    
+  </p>
+
+  
+  <p>
+    <label for="id_password1">Password:</label>
+    <input type="password" name="password1" autocomplete="new-password" required id="id_password1">
+    
+      <span class="helptext">
+       <ul>
+        <li>Your password can’t be too similar to your other personal information.</li>
+        <li>Your password must contain at least 8 characters.</li>
+        <li>Your password can’t be a commonly used password.</li>
+        <li>Your password can’t be entirely numeric.</li>
+        <li>Password must contain at maximum 30 characters.</li>
+       </ul>
+      </span>
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_password2">Password confirmation:</label>
+    <input type="password" name="password2" autocomplete="new-password" required id="id_password2">
+    
+      <span class="helptext">Enter the same password as before, for verification.</span>
+    
+    
+      
+    
+  </p>
 
             <button type="submit">Sign Up</button>
         </form>
     </div>
-
-    <div id="warn"></div>
 
 {% endblock %}

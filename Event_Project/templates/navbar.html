@@ -1,16 +1,19 @@
 {% load static %}
 <nav>
   <ul>
-    <li><a href="{% url 'home' %}">Home</a> </li>
+    <li class="navs_color"><a href="{% url 'home' %}"> <b> Home </b> </a> </li>
     {% if request.user.is_authenticated %}
-    <li><a href="{% url 'create_event' %}">Create event</a> </li>
-    <li><a href="{% url 'events' %}">Events</a> </li>
-    <li><a href="{% url 'profiles' %}">Users</a> </li>
+    <li class="navs_color"><a href="{% url 'create_event' %}"> <b> Create event </b> </a> </li>
+    <li class="navs_color"><a href="{% url 'events' %}"> <b> Events </b> </a> </li>
+    <li class="navs_color"><a href="{% url 'profiles' %}"> <b> Users </b> </a> </li>
 
-    <li class="last-item">Logged in as:: <i>{{ request.user.email }} </i><a href="{% url 'logout' %}"> Logout </a></li>
+    <li id="navs_color" class="last-item">Logged in as:: <i>{{ request.user.email }} </i><a href="{% url 'logout' %}">  <b> Logout </b> </a></li>
     {% endif %}
     {% if not request.user.is_authenticated %}
-    <li class="last-item"><a href="{% url 'login' %}">Login/Signup</a></li>
+    <li id="navs_color" class="last-item"><a href="{% url 'login' %}"> <b> Login/Signup </b> </a></li>
     {% endif %}
+
+    <hr class="hr_color">
+
  </ul>
 </nav>

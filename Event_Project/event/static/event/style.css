@@ -3,9 +3,18 @@ body {
     background: #DDDDDD;
 }
 
+.main_center {
+    text-align: center;
+}
+
 header {
     font-size: 40px;
     text-align: center; /* new */
+    text-shadow: 5px 5px 5px #777777;
+}
+
+.hr_color {
+    color: #FFFF00;
 }
 
 /* css for search */
@@ -30,6 +39,10 @@ header {
    color: black;
    width: 200px;
    border: solid 1px #3c3c3c;
+}
+
+#search_radius {
+    border-radius: 10px;
 }
 
 nav ul {
@@ -60,11 +73,28 @@ nav li {
 
 .welcome {
     font-size: 32px;
+    text-shadow: 3px 3px 3px #777777;
 }
 
 /* events.html */
 .list-of-events {
     font-size: 32px;
+    text-shadow: 3px 3px 3px #777777;
+}
+
+.navs_color {
+    background-color: #FFFF66;
+    border-radius: 10px;
+}
+
+#navs_color {
+    background-color: #FFFF66;
+    border-radius: 10px;
+}
+
+.list-of-users {
+    font-size: 32px;
+    text-shadow: 3px 3px 3px #777777;
 }
 
 .events-list ul {
@@ -175,8 +205,16 @@ input[type=submit] {
     margin-bottom: 15px;
 }
 
-# #warn {
+#warn {
    color: red;
+}
+
+#error_username_len {
+    color: red;
+}
+
+.short_descr {
+    color: red;
 }
 
 .error_date {
@@ -189,4 +227,17 @@ input[type=submit] {
 
 .empty_descr {
     color: red;
+}
+
+.long_descr {
+    color: red;
+}
+
+.create_event-file {
+    width: 50px;
+    /* border: solid 2px green; */
+    margin-top: 5px;
+    margin-right: auto;
+    margin-left: auto;
+    /* position: center; */
 }

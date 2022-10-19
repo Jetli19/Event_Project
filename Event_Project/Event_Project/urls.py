@@ -47,9 +47,14 @@ urlpatterns = [
     # accounts aplikace
     path("accounts/", include("accounts.urls")),  # vygeneruje signup
     path("accounts/", include("django.contrib.auth.urls")),  # vsetky ostatne authorizacne urls
+    # path('accounts/', profiles.views.SignUpView.len_username, name='len_username'),
+    # path('accounts/', profiles.views.SignUpView.form_valid, name='form_valid'),
 
-    #join event
+    # join event
     path('join_event/<pk1>/<pk2>/', event.views.JoinEvent.join_event, name='join_event'),
+
+    # unjoin_event
+    path('unjoin_event/<pk1>/<pk2>/', event.views.JoinEvent.unjoin_event, name='unjoin_event'),
 
     path("__reload__/", include("django_browser_reload.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # add static

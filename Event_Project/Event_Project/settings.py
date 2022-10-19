@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'event',
     'accounts',
     'profiles',
+
+    # 'user_unique_email',
 ]
 
 MIDDLEWARE = [
@@ -116,6 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 ]
 
+# AUTH_USER_MODEL = 'user_unique_email.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

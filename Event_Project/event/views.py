@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.forms import ModelForm
 from django.http import HttpResponseRedirect
@@ -10,6 +11,8 @@ from django.contrib.auth.models import AbstractUser, User
 from event.models import Event, Comment
 from datetime import *
 
+from profiles.models import Profile
+
 
 def home(request):
     events = Event.objects.all()  # najdeme všechny místnosti
@@ -20,7 +23,20 @@ def home(request):
 
 
 def signup(request):
-    return render(request, 'account/signup.html')
+    if not request.method == 'POST':
+        return render(request, 'accounts/signup.html')  # TODO: warning: changed: account/ -- > accounts/
+    elif request.method == 'POST':
+        email = request.POST.get('email')
+        if User.objects.filter(email__contains=email):
+            return render(request, 'accounts/signup.html')  # TODO: warning: changed: account/ -- > accounts/
+        else: # TODO - not functioning
+            # User.objects.create()
+            ## user = User.objects.create(
+            ## user = request.user
+            ##)
+            return render(request, 'event/home.html') # 'registration/login.html'
+
+    # return render(request, 'accounts/signup.html') # TODO: warning: changed: account/ -- > accounts/
 
 
 @login_required
@@ -30,9 +46,9 @@ def search(request):
         s = s.strip()                                        # ořízneme prázdné znaky
         if len(s) > 0:                                       # pkud s obsahuje alespoň jeden znak
             events = Event.objects.filter(name__contains=s)        # vyfiltruji místnosti dle zadaného řetězce
-            comments = Comment.objects.filter(body__contains=s)  # vyfiltruji zprávy dle zadaného řetezce
+            # comments = Comment.objects.filter(body__contains=s)  # vyfiltruji zprávy dle zadaného řetezce
 
-            context = {'events': events, 'comments': comments, 'search': s}     # výsledky uložím do kontextu
+            context = {'events': events, 'search': s}     # výsledky uložím do kontextu
             return render(request, "event/search.html", context)  # vykreslíme stránku s výsledky
         return redirect('home')
         # pokud POST nebyl odeslán
@@ -49,7 +65,7 @@ def event(request, pk):
     # pokud zadáme novou zprávu, musíme ji zpracovat
     if request.method == 'POST':
         file_url = ""
-        if request.FILES.get('upload'):                        # pokud jsme poslali soubor
+        if request.FILES.get('upload'):                    # pokud jsme poslali soubor
             upload = request.FILES['upload']               # z requestu si vytáhnu soubor
             file_storage = FileSystemStorage()             # práce se souborovým systémem
             file = file_storage.save(upload.name, upload)  # uložíme soubor na disk
@@ -71,8 +87,14 @@ def event(request, pk):
 @login_required
 def events(request):
     events = Event.objects.all()
+    try:
+       profile = Profile.objects.get(user=request.user)
+       admin = profile.admin
+    except:
+       admin = False
 
-    context = {'events': events}
+
+    context = {'events': events, 'admin': admin}
     return render(request, "event/events.html", context)
 
 
@@ -80,6 +102,13 @@ def events(request):
 def create_event(request):
     today = date.today()
     if request.method == 'POST':
+        file_url = ''
+        if request.FILES.get('upload_cre'):  # pokud jsme poslali soubor
+            upload = request.FILES['upload_cre']  # z requestu si vytáhnu soubor
+            file_storage = FileSystemStorage()  # práce se souborovým systémem
+            file = file_storage.save(upload.name, upload)  # uložíme soubor na disk
+            file_url = file_storage.url(file)  # vytáhnu ze souboru url adresu a uložím
+
         name = request.POST.get('name').strip()
 
         if not name:
@@ -94,6 +123,16 @@ def create_event(request):
             context = {'empty_descr': empty_descr}
             return render(request, 'event/create_event.html', context)
 
+        if len(descr) < 20:
+            short_descr = 'The description has to have in the minimum 20 characters.'
+            context = {'short_descr': short_descr}
+            return render(request, 'event/create_event.html', context)
+
+        if len(descr) > 500:
+            long_descr = 'The description has to have in the maximum 500 characters.'
+            context = {'long_descr': long_descr}
+            return render(request, 'event/create_event.html', context)
+
         if not request.POST.get('start_date'):
             return render(request, 'event/create_event.html')
 
@@ -104,8 +143,20 @@ def create_event(request):
 
         end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
 
-        if len(name) > 0 and len(
-                descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event:
+        if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event or request.FILES.get('upload_cre'):
+            event = Event.objects.create(
+                host=request.user,
+                name=name,
+                description=descr,
+                start_event=start_event,
+                end_event=end_event,
+                file = file_url
+            )
+
+            return redirect('event', pk=event.id)  # # NEW PA 17-1-v2
+            # return HttpResponseRedirect(request.path_info)
+
+        elif len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event and not request.FILES.get('upload_cre'):
             event = Event.objects.create(
                 host=request.user,
                 name=name,
@@ -114,7 +165,8 @@ def create_event(request):
                 end_event=end_event
             )
 
-            return redirect('event', pk=event.id)
+            return redirect('event', pk=event.id)  # # NEW PA 17-1-v2
+            # return HttpResponseRedirect(request.path_info)
 
         elif start_event < today:
             message = 'Start of the event is set in the past.'
@@ -178,8 +230,16 @@ class JoinEvent(UpdateView):
         self.event = None
         self.user = None
 
+    @login_required
     def join_event(self, pk1, pk2):
         self.event = Event.objects.get(id=pk1)
         self.user = User.objects.get(id=pk2)
         self.event.participants.add(self.user)
+        return redirect('events')
+
+    @login_required
+    def unjoin_event(self, pk1, pk2):
+        self.event = Event.objects.get(id=pk1)
+        self.user = User.objects.get(id=pk2)
+        self.event.participants.remove(self.user)
         return redirect('events')

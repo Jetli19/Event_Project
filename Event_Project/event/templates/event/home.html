@@ -5,10 +5,56 @@
 {% block content %}
 <body>
 
+<div class="main_center">
+
 <main>
     <div class="welcome"> Welcome in our Event project </div>
-
 </main>
+
+<div class="list-of-events">List of events:</div>
+    <div class="events-list">
+            {% for event in events %}
+            {% if event.end_event >= event.today %}
+            <ul>
+                <li>
+                {% if event.host %}
+                    Host: <b>{{ event.host }}</b> <br>
+                {% endif %}
+                <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
+
+                <div class="event_date">
+                    Start of event: <b>{{ event.start_event }}</b> <br>
+                    End of event: <b>{{ event.end_event }}</b> <br>
+                </div>
+
+                <b> Description of the event: </b>{{ event.description }} <br>
+
+                {% if event.file %}
+                  <div class="create_event-file">
+                    <a href="{{ event.file }}" target="_blank"><img src="{{ event.file }}" alt="{{ event.file }}" width="128px"></a>
+                  </div>
+                {% endif %}
+
+                {% if event.host.id == request.user.id %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
+
+                {% if event.comments_count > 0 %}
+                    ({{ event.comments_count }} comments, last comment date: {{ event.last_comment_time }})
+                {% else %}
+                    (no comment yet)
+                {% endif %}
+                <br>
+<!--                <a href="{% url 'join_event' event.id request.user.id %}">Join</a>-->
+<!--                        or <a href="{% url 'delete_event' event.id %}">-->
+<!--                            <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>-->
+<!--                        or <a href="{% url 'edit_event' event.id %}"> edit </a>-->
+                {% endif %}
+                </li>
+            </ul>
+            {% endif %}
+            {% endfor %}
+    </div>
+
+    </div>
 
 </body>
 {% endblock %}

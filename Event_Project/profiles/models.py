@@ -10,6 +10,13 @@ class Profile(models.Model):
     photo = models.TextField(null=True)
     last_seen = models.DateTimeField(auto_now=True)
     signed_up = models.DateTimeField(auto_now_add=True)
+    admin = models.BooleanField(null=True)
+    email = models.EmailField(
+        verbose_name='email_address',
+        max_length=255,
+        unique=True,
+        null=True
+    )
 
 
 class OnLineUsers(models.Model):

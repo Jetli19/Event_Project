@@ -12,9 +12,13 @@ class Event(models.Model):
     end_event = models.DateField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    today = date.today()
+    # today = models.DateTimeField(null=True, blank=True)
+
+    file = models.TextField(null=True)  # file atribute in model # NEW PA 17-1
 
     class Meta:
-        ordering = ['-updated', '-created']
+        ordering = ['start_event', 'end_event']
 
     def __str__(self):
         return self.name
@@ -32,7 +36,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     body = models.TextField(null=False, blank=False)
-    file = models.TextField(null=True)  # file atribute in model
+    file = models.TextField(null=True)  # file attribute in model
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
