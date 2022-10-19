@@ -35,8 +35,8 @@ class SignUpView(generic.CreateView):
         else:
             return render(request, 'accounts/signup.html')
 
-    def form_valid(self, form):
-        pass
+#    def form_valid(self, form):
+#       pass
         '''
         if request.method == 'POST':
                 is_in_emails = request.POST.get('email')

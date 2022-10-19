@@ -13,7 +13,8 @@
                 {% if event.host %}
                     Host: <b>{{ event.host }}</b> <br>
                 {% endif %}
-                <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
+                Title of the event: <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
+                Location: <b> {{ event.location }} </b> <br>
                   <div class="event_date">
                     Start of event: <b>{{ event.start_event }} --- </b>
                     End of event: <b>{{ event.end_event }}</b> <br>
@@ -24,7 +25,12 @@
                 {% else %}
                     (no comment yet)
                 {% endif %} <br>
-                <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+                {% if request.user not in event.participants.all %}
+                  <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+                {% endif %}
+                {% if request.user in event.participants.all %}
+                  <a href="{% url 'unjoin_event' event.id request.user.id %}">Unjoin</a>
+                {% endif %}
                 {% if event.host.id == request.user.id %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
                   or  <a href="{% url 'edit_event' event.id %}"> edit </a>
                   or  <a href="{% url 'delete_event' event.id %}">

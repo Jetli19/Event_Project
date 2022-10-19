@@ -1,16 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.forms import ModelForm
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import User
 from event.models import Event, Comment
 from datetime import *
-
 from profiles.models import Profile
 
 
@@ -88,11 +86,10 @@ def event(request, pk):
 def events(request):
     events = Event.objects.all()
     try:
-       profile = Profile.objects.get(user=request.user)
-       admin = profile.admin
+        profile = Profile.objects.get(user=request.user)
+        admin = profile.admin
     except:
-       admin = False
-
+        admin = False
 
     context = {'events': events, 'admin': admin}
     return render(request, "event/events.html", context)
@@ -133,6 +130,12 @@ def create_event(request):
             context = {'long_descr': long_descr}
             return render(request, 'event/create_event.html', context)
 
+        location = request.POST.get('location').strip()
+        if not location:
+            empty_location = 'The location of the event cannot be empty.'
+            context = {'empty_location': empty_location}
+            return render(request, 'event/create_event.html', context)
+
         if not request.POST.get('start_date'):
             return render(request, 'event/create_event.html')
 
@@ -143,11 +146,12 @@ def create_event(request):
 
         end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
 
-        if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event or request.FILES.get('upload_cre'):
+        if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today and start_event <= end_event and request.FILES.get('upload_cre'):
             event = Event.objects.create(
                 host=request.user,
                 name=name,
                 description=descr,
+                location=location,
                 start_event=start_event,
                 end_event=end_event,
                 file = file_url
@@ -161,6 +165,7 @@ def create_event(request):
                 host=request.user,
                 name=name,
                 description=descr,
+                location=location,
                 start_event=start_event,
                 end_event=end_event
             )
@@ -219,27 +224,48 @@ class EditEvent(UpdateView):
     success_url = reverse_lazy('events')
 
 
-@method_decorator(login_required, name='dispatch')
-class JoinEvent(UpdateView):
-    template_name = 'event/event.html'
-    model = Event
-    form_class = EventEditForm
-    success_url = reverse_lazy('events')
+# @method_decorator(login_required, name='dispatch')
+# class JoinEvent(UpdateView):
+#     template_name = 'event/event.html'
+#     model = Event
+#     form_class = EventEditForm
+#     success_url = reverse_lazy('events')
+#
+#     def __init__(self):
+#         self.event = None
+#         self.user = None
+#
+#     @login_required
+#     def join_event(self, pk1, pk2):
+#         self.event = Event.objects.get(id=pk1)
+#         self.user = User.objects.get(id=pk2)
+#         self.event.participants.add(self.user)
+#         return redirect('events')
+#
+#     @login_required
+#     def unjoin_event(self, pk1, pk2):
+#         self.event = Event.objects.get(id=pk1)
+#         self.user = User.objects.get(id=pk2)
+#         self.event.participants.remove(self.user)
+#         return redirect('events')
 
-    def __init__(self):
-        self.event = None
-        self.user = None
+@login_required
+def join_event(request, pk1, pk2):
+    event = Event.objects.get(id=pk1)
+    user = User.objects.get(id=pk2)
+    event.participants.add(user)
+    return redirect('event', pk=event.id)
 
-    @login_required
-    def join_event(self, pk1, pk2):
-        self.event = Event.objects.get(id=pk1)
-        self.user = User.objects.get(id=pk2)
-        self.event.participants.add(self.user)
-        return redirect('events')
+@login_required
+def unjoin_event(request, pk1, pk2):
+    event = Event.objects.get(id=pk1)
+    user = User.objects.get(id=pk2)
+    context = {'event': event}
+    return render(request, 'event/unjoin_event.html', context)
 
-    @login_required
-    def unjoin_event(self, pk1, pk2):
-        self.event = Event.objects.get(id=pk1)
-        self.user = User.objects.get(id=pk2)
-        self.event.participants.remove(self.user)
-        return redirect('events')
+@login_required
+def unjoin_event_yes(request, pk1, pk2):
+    event = Event.objects.get(id=pk1)
+    user = User.objects.get(id=pk2)
+    event.participants.remove(user)
+    return redirect('events')

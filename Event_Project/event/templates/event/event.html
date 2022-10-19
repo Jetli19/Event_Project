@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="event-descr">
-        You are in event <b>{{ event.name }}</b> <br>
+        You are in event: <b>{{ event.name }}</b> <br>
         Description: {{ event.description }} <br>
         Host: {{ event.host }}
         {% if event.file %}
@@ -13,14 +13,20 @@
             </div>
         {% endif %}
     </div>
+    Location: <b> {{ event.location }} </b> <br>
 
-    <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
-    <a href="{% url 'unjoin_event' event.id request.user.id %}">Unjoin</a>
+    {% if request.user not in event.participants.all %}
+      <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+    {% endif %}
+    {% if request.user in event.participants.all %}
+      <a href="{% url 'unjoin_event' event.id request.user.id %}">Unjoin</a>
+    {% endif %}
     <div>
     Participants:
     {% for participant in event.participants.all %}
         {{ participant }}
     {% endfor %}
+
     </div>
 
     <div class="event_date">

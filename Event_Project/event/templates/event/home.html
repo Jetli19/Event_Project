@@ -20,8 +20,8 @@
                 {% if event.host %}
                     Host: <b>{{ event.host }}</b> <br>
                 {% endif %}
-                <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
-
+                Title of the event:<b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
+                Location: <b> {{ event.location }} </b> <br>
                 <div class="event_date">
                     Start of event: <b>{{ event.start_event }}</b> <br>
                     End of event: <b>{{ event.end_event }}</b> <br>

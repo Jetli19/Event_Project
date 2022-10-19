@@ -21,6 +21,11 @@
       {% if long_descr %}
         <div class="long_descr"> {{ long_descr }} </div>
       {% endif %}
+    <label for="location"> Location: </label>
+    <input type="text" name="location" id="location"> Add the location(s) (it is mandatory). <br>
+     {% if empty_location %}
+       <div class="empty_location"> {{ empty_location }} </div>
+     {% endif %}
     <label for="start_date">Start Date:</label>
     <input type="date" name="start_date" id="start_date"> <br>
     <label for="end_date">End Date:</label>
