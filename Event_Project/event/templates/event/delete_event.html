@@ -5,7 +5,7 @@
 {% block title %}Delete event{% endblock %}
 
 {% block content %}
-    Opravdu chcete smazat event <b>{{ event.name }}</b>, ktery obsahuje {{ comment_count }} zpráv.
+    Do you really want to delete event <b>{{ event.name }}</b>, which include {{ comment_count }} comment/s ?
     <div class="yes">
         <a href="{% url 'delete_event_yes' event.id %}">Yes</a>
     </div>

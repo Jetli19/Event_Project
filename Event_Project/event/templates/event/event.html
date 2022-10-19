@@ -1,32 +1,48 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
 {% block title %}Event: {{ event.name }}{% endblock %}
 
 {% block content %}
+
+    Host: <b>{{ event.host }}</b> <br>
+
     <div class="event-descr">
         You are in event <b>{{ event.name }}</b> <br>
-        Description: {{ event.description }} <br>
-        Host: <b>{{ event.host }}</b> <br>
-        {% if event.file %}
-            <div class="create_event-file">
-                <a href="{{ event.file }}" target="_blank"><img src="{{ event.file }}" width="50px"></a>
-            </div>
-        {% endif %}
-    </div>
 
-    <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
-    <a href="{% url 'unjoin_event' event.id request.user.id %}">Unjoin</a>
-    <div>
-    Participants:
-    {% for participant in event.participants.all %}
-        {{ participant }}
-    {% endfor %}
-    </div>
+    {% if event.file %}
+      <div class="create_event-file">
+        <a href="{{ event.file }}" target="_blank"><img src="{{ event.file }}" width="50px"></a>
+      </div>
+    {% endif %}
 
     <div class="event_date">
-        Start of event: <b>{{ event.start_event }}</b> <br>
-        End of event: <b>{{ event.end_event }}</b> <br>
+      Start of event: <b>{{ event.start_event }}</b> <br>
+      End of event: <b>{{ event.end_event }}</b> <br>
     </div>
+
+    <div>
+      Participants:
+        {% for participant in event.participants.all %}
+          {{ participant }}
+        {% endfor %}
+    </div>
+
+    {% if request.user not in event.participants.all %}
+      <a href="{% url 'join_event' event.id request.user.id %}">Join</a>
+    {% endif %}
+    {% if request.user in event.participants.all %}
+      <a href="{% url 'unjoin_event' event.id request.user.id %}">Unjoin</a>
+    {% endif %}
+    <br>
+    {% if event.host.id == request.user.id or admin %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
+      <a href="{% url 'edit_event' event.id %}">🖉</a>
+      <a href="{% url 'delete_event' event.id %}">
+        <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a> <br>
+    {% endif %}
+
+    Description: {{ event.description }} <br>
 
     <div class="comment-form">
         <form action="" method="POST" enctype="multipart/form-data">
@@ -50,9 +66,9 @@
                     </div>
                     <div class="my-comment-body">{{ comment.body }}</div>
                     {% if comment.file %}
-                        <div class="my-comment-file">
-                            <a href="{{ comment.file }}" target="_blank"><img src="{{ comment.file }}" width="50px"></a>
-                        </div>
+                    <div class="my-comment-file">
+                      <a href="{{ comment.file }}" target="_blank"><img src="{{ comment.file }}" width="50px"></a>
+                    </div>
                     {% endif %}
                 </div>
             {% else %}
@@ -63,12 +79,12 @@
                     </div>
                     <div class="other-comment-body">{{ comment.body }}</div>
                     {% if comment.file %}  <!-- to show a picture -->
-                        <div class="other-comment-file">
-                            <a href="{{ comment.file }}" target="_blank"><img src="{{ comment.file }}" width="50px"></a>
-                        </div>
+                    <div class="other-comment-file">
+                      <a href="{{ comment.file }}" target="_blank"><img src="{{ comment.file }}" width="50px"></a>
+                    </div>
                     {% endif %}
                 </div>
             {% endif %}
         {% endfor %}
-        </div>
-    {% endblock %}
+    </div>
+{% endblock %}

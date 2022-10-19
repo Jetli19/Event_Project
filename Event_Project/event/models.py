@@ -30,6 +30,9 @@ class Event(models.Model):
         event_comments = self.comment_set.all()[0]
         return event_comments.updated
 
+    # def joined_user(self, user):
+    #     return self.participants.filter(user=user).exists()
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

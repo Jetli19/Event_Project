@@ -49,8 +49,9 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),  # vsetky ostatne authorizacne urls
 
     #join event
-    path('join_event/<pk1>/<pk2>/', event.views.JoinEvent.join_event, name='join_event'),
-    path('unjoin_event/<pk1>/<pk2>/', event.views.JoinEvent.unjoin_event, name='unjoin_event'),
+    path('join_event/<pk1>/<pk2>/', event.views.join_event, name='join_event'),
+    path('unjoin_event/<pk1>/<pk2>/', event.views.unjoin_event, name='unjoin_event'),
+    path('unjoin_event_yes/<pk1>/<pk2>/', event.views.unjoin_event_yes, name='unjoin_event_yes'),
 
     path("__reload__/", include("django_browser_reload.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # add static
