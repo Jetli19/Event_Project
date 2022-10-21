@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <h2>Log In</h2>
+    <h3>Log In</h3>
     <div class="box">
         <form method="post">
             {% csrf_token %}
@@ -9,7 +9,18 @@
             <button type="submit">Log In</button>
         </form>
     </div>
-    <div class="box">
+    <div class="box"><br>
         You can <a href="/accounts/signup/">sign up</a> for free.
     </div>
+<section class="footer">
+    <h4> ABOUT US </h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-twitter"></i>
+    </div>
+</section>
 {% endblock %}
