@@ -12,7 +12,7 @@
         <li><a href="{% url 'create_event' %}">Create event</a> </li>
         <li><a href="{% url 'events' %}">Events</a> </li>
         <li><a href="{% url 'profiles' %}">Users</a> </li>
-        <li class="last-item">Logged in as: <i>{{ request.user.email }} </i><a href="{% url 'logout' %}"> Logout </a></li>
+        <li class="navbar-user">Logged in as: <i>{{ request.user.email }} </i><a href="{% url 'logout' %}"> Logout </a></li>
         {% endif %}
         {% if not request.user.is_authenticated %}
         <li class="last-item"><a href="{% url 'login' %}">Login/Signup</a></li>
@@ -21,7 +21,7 @@
     </div>
   </nav>
 
-<div class="text-box321">
+<div class="text-box">
   <h1>Best side for your events</h1>
   <p>Create your own Event to let everybody knows or find your dream event and enjoy it.
   <br>Best place to meet with people.</p>

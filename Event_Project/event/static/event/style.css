@@ -5,6 +5,32 @@
     font-family: 'Poppins', sans-serif;
 }
 
+h1{
+    font-size: 36px;
+    font-weight: 600;
+}
+
+p{
+    color: #777;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
+    padding: 10px;
+}
+
+.row{
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+h3{
+    text-align: center;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+
 .header{
     min-height: 100vh;
     width: 100%;
@@ -37,6 +63,7 @@ nav img{
     display: inline-block;
     padding: 8px 12px;
     position: relative;
+    color: #fff;
 }
 
 .nav-links ul li a{
@@ -79,8 +106,7 @@ nav img{
    color: black;
    width: 200px;
    border: solid 1px #3c3c3c;
-}*/
-
+}
 
 .text-box{
     width: 90%;
@@ -124,6 +150,40 @@ nav .fa{
     display: none;
 }
 
+input[type=text], select, textarea {
+  width: 100%; /* Full width */
+  padding: 12px; /* Some padding */
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+/* Style the submit button with a specific background color etc */
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+
 @media(max-width: 700px){
     .text-box h1 {
         font-size: 20px;
@@ -163,33 +223,21 @@ nav .fa{
         font-size: 24px
     }
 }
+/* Events*/
 
-/* events bottom  */
-
-
-h1{
-    font-size: 36px;
-    font-weight: 600;
-}
-
-p{
-    color: #777;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 22px;
-    padding: 10px;
-}
-
-.row{
-    margin-top: 5%;
-    display: flex;
-    justify-content: space-between;
-}
-
-h3{
+.events-list{
+    width: 80%;
+    margin: auto;
     text-align: center;
-    font-weight: 600;
-    margin: 10px 0;
+    padding-top: 50px;
+}
+
+.events-list ul{
+    flex-basis: 32%;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
 }
 
 
@@ -225,7 +273,7 @@ h3{
 }
 .layer h3 {
     width: 100px;
-    font-weight; 500;
+    font-weight: 500;
     color: #fff;
     font-size: 26px;
     bottom: 0;
@@ -317,144 +365,6 @@ h3{
 
 }
 
-/*
-
-#search {
-   position: absolute;
-   top: 10px;
-   right: 28px;
-   height: 50px;
-   line-height: 50px;
-}
-
-#search input.text {
-   padding: 10px 40px 10px 10px;
-   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
-   color: black;
-   width: 200px;
-   border: solid 1px #3c3c3c;
-}
-#search .search-button{
-   padding: 10px 40px 10px 10px;
-   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
-   color: black;
-   width: 200px;
-   border: solid 1px #3c3c3c;
-}*/
-
-/*
-nav{
-    display: flex:
-    padding: 2% 6%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-nav img{
-    width: 150px;
-
-}
-
-.nav-links{
-    flex: 1;
-    text-align: right;
-}
-
-.nav-links ul li{
-    list-style: none;
-    display: inline-block;
-    padding: 8px 12px;
-    position: relative;
-}
-
-.nav-links ul li a{
-    color: #fff;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-.nav-links ul li::after{
-    content: '';
-    width: 0%;
-    height: 2px;
-    background: #f44336;
-    display: block;
-    margin: auto;
-    transition: 0.5s;
-}
-
-.nav-links ul li:hover::after{
-    width: 100%;
-}
-
-.last-item{
-    float: right;
-    margin-right: 40px;
-}
-*/
-
-
-/* home.html */
-
-/*
-.user_hello {
-    font-size: 32px;
-    padding-bottom: 15px;
-}
-
-.welcome {
-    font-size: 32px;
-}
-*/
-
-/* events.html */
-
-/*
-.list-of-events {
-    font-size: 32px;
-}
-
-.events-list ul {
-    list-style: none;
-}
-*/
-
-
-/* event.html */
-
-/*
-.event-descr {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-
-.event-page {
-    font-size: 20px;
-}
-
-.comment-form {
-    margin-bottom: 20px;
-}
-
-input[type=text] {
-    width: 400px;
-}
-
-input[type=submit] {
-    width: 50px;
-}
-
-.comments-box {
-}
-
-.other-comment-body {
-    background: white;
-    width: 80%;
-    border: solid 3px #4432a8;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
 
 .my-comment {
 

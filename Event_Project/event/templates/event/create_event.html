@@ -6,13 +6,13 @@
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="name">Title:</label>
-    <input type="text" name="name" id="name"> Title cannot be empty. <br>
+    <input type="text" name="name" id="name" placeholder="Title cannot be empty."> <br>
       {% if empty_name %}
         <div class="empty_name"> {{ empty_name }} </div>
       {% endif %}
 
     <label for="descr">Description:</label>
-    <input type="text" name="descr" id="descr"> Add description with 20-500 characters. <br>
+    <input type="text" name="descr" id="descr" placeholder="Add description with 20-500 characters.">  <br>
       {% if empty_descr %}
         <div class="empty_descr"> {{ empty_descr }} </div>
       {% endif %}
@@ -24,7 +24,7 @@
       {% endif %}
 
     <label for="location">Location:</label>
-    <input type="text" name="location" id="location"> Location cannot be empty. <br>
+    <input type="text" name="location" id="location" placeholder="Location cannot be empty."> <br>
     {% if empty_location %}
       <div class="empty_location"> {{ empty_location }} </div>
     {% endif %}
@@ -50,4 +50,16 @@
     var today_end = new Date().toISOString().split('T')[0];
     document.getElementsByName("end_date")[0].setAttribute('min', today_end);
   </script>
+
+<section class="footer">
+    <h4> ABOUT US </h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-twitter"></i>
+    </div>
+</section>
 {% endblock %}

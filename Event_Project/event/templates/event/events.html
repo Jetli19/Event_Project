@@ -5,11 +5,10 @@
 {% block title %}Events{% endblock %}
 
 {% block content %}
-  <div class="list-of-events">List of events:</div>
+ <h3>List of events:</h3>
   <div class="events-list">
     {% for event in events %}
       <ul>
-        <li>
             <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
 
             {% if event.host %}
@@ -49,8 +48,19 @@
               <a href="{% url 'delete_event' event.id %}">Delete
                 <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a>
             {% endif %}
-        </li>
       </ul>
     {% endfor %}
   </div>
+
+<section class="footer">
+    <h4> ABOUT US </h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-twitter"></i>
+    </div>
+</section>
 {% endblock %}
