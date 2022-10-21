@@ -6,10 +6,12 @@
 
 {% block content %}
 
-    Host: <b>{{ event.host }}</b> <br>
-
     <div class="event-descr">
         You are in event <b>{{ event.name }}</b> <br>
+
+    Host: <b>{{ event.host }}</b> <br>
+
+    Location: {{ event.location }}<br>
 
     {% if event.file %}
       <div class="create_event-file">
@@ -37,8 +39,8 @@
     {% endif %}
     <br>
     {% if event.host.id == request.user.id or admin %}  <!-- Pokud je přihlášený uživatel "majitel" místnosti -->
-      <a href="{% url 'edit_event' event.id %}">🖉</a>
-      <a href="{% url 'delete_event' event.id %}">
+      <a href="{% url 'edit_event' event.id %}">Edit 🖉</a><br>
+      <a href="{% url 'delete_event' event.id %}">Delete
         <img src="{% static 'event/cross.png' %}" alt='delete' width="12px"></a> <br>
     {% endif %}
 

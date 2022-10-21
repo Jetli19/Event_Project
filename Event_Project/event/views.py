@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.forms import ModelForm
 from django.http import HttpResponseRedirect
@@ -107,14 +108,12 @@ def create_event(request):
             file_url = file_storage.url(file)  # vytáhnu ze souboru url adresu a uložím
 
         name = request.POST.get('name').strip()
-
         if not name:
             empty_name = 'The title of the event cannot be empty.'
             context = {'empty_name': empty_name}
             return render(request, 'event/create_event.html', context)
 
         descr = request.POST.get('descr').strip()
-
         if not descr:
             empty_descr = 'The description of the event cannot be empty.'
             context = {'empty_descr': empty_descr}
@@ -130,15 +129,19 @@ def create_event(request):
             context = {'long_descr': long_descr}
             return render(request, 'event/create_event.html', context)
 
+        location = request.POST.get('location').strip()
+        if not location:
+            empty_location = 'The location of the event cannot be empty.'
+            context = {'empty_location': empty_location}
+            return render(request, 'event/create_event.html', context)
+
+        start_event = datetime.strptime(request.POST.get('start_date'), '%Y-%m-%d').date()
         if not request.POST.get('start_date'):
             return render(request, 'event/create_event.html')
 
-        start_event = datetime.strptime(request.POST.get('start_date'), '%Y-%m-%d').date()
-
+        end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
         if not request.POST.get('end_date'):
             return render(request, 'event/create_event.html')
-
-        end_event = datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date()
 
         if len(name) > 0 and len(descr) > 0 and start_event >= today and end_event >= today\
                 and start_event <= end_event or request.FILES.get('upload_cre'):
@@ -146,6 +149,7 @@ def create_event(request):
                 host=request.user,
                 name=name,
                 description=descr,
+                location=location,
                 start_event=start_event,
                 end_event=end_event,
                 file=file_url
@@ -192,9 +196,25 @@ def delete_event_yes(request, pk):
 
 class EventEditForm(ModelForm):
 
+    def check_start_event(self):
+        date1 = self.cleaned_data['start_event']
+        date2 = self.cleaned_data['end_event']
+
+        # Check if a date is not in the past.
+        if date1 < date.today():
+            raise ValidationError('Invalid date - renewal in past')
+
+        # Check if a date is in the allowed range (+4 weeks from today).
+        # if date1 > date2:
+        #     raise ValidationError('Invalid date - renewal more than 4 weeks ahead')
+
+        # Remember to always return the cleaned data.
+        return date1
+
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = 'name', 'description', 'location', 'start_event', 'end_event'
+        help_texts = {'start_event': 'Enter a future date.'}
 
 
 @method_decorator(login_required, name='dispatch')

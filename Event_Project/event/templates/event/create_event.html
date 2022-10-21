@@ -5,11 +5,12 @@
 {% block content %}
   <form method="post" action="" enctype="multipart/form-data">
     {% csrf_token %}
-    <label for="name">Name:</label>
+    <label for="name">Title:</label>
     <input type="text" name="name" id="name"> Title cannot be empty. <br>
       {% if empty_name %}
         <div class="empty_name"> {{ empty_name }} </div>
       {% endif %}
+
     <label for="descr">Description:</label>
     <input type="text" name="descr" id="descr"> Add description with 20-500 characters. <br>
       {% if empty_descr %}
@@ -21,13 +22,22 @@
       {% if long_descr %}
         <div class="long_descr"> {{ long_descr }} </div>
       {% endif %}
+
+    <label for="location">Location:</label>
+    <input type="text" name="location" id="location"> Location cannot be empty. <br>
+    {% if empty_location %}
+      <div class="empty_location"> {{ empty_location }} </div>
+    {% endif %}
+
     <label for="start_date">Start Date:</label>
     <input type="date" name="start_date" id="start_date"> <br>
     <label for="end_date">End Date:</label>
     <input type="date" name="end_date" id="end_date"> <br>
+
     {% if message %}
     <div class="error_date"> {{ message }} </div>
     {% endif %}
+
     You can upload an image file and create an event here: <input type="file" name="upload_cre" accept="image/*">
     <input type="submit" value="Create"> <br>
 

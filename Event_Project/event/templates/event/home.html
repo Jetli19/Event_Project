@@ -5,11 +5,8 @@
 {% block title %}Event - home{% endblock %}
 
 {% block content %}
-<body>
 
-<main>
-  <div class="welcome"> Welcome in our Event project </div>
-</main>
+<body>
 
 <div class="list-of-events">List of events:</div>
   <div class="events-list">
@@ -17,10 +14,11 @@
     {% if event.end_event >= event.today %}
     <ul>
       <li>
+        <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
         {% if event.host %}
           Host: <b>{{ event.host }}</b> <br>
         {% endif %}
-        <b><a href="{% url 'event' event.id %}">{{ event.name }}</a></b> <br>
+        Location: {{ event.location }}<br>
         {% if event.file %}
           <div class="create_event-file">
             <a href="{{ event.file }}" target="_blank"><img src="{{ event.file }}" width="50px"></a>
@@ -35,6 +33,112 @@
     {% endif %}
     {% endfor %}
   </div>
+
+<section class="cities">
+    <h1>The best upcoming events</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elitU, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+    <div class="row">
+        <div class="cities-col">
+            <img src="{% static 'event/Bratislava3.jpg' %}">
+            <div class="layer">
+                <h3>BRATISLAVA</h3>
+            </div>
+        </div>
+        <div class="cities-col">
+            <img src="{% static 'event/Praha.png' %}">
+            <div class="layer">
+                <h3>PRAGUE</h3>
+            </div>
+        </div>
+        <div class="cities-col">
+            <img src="{% static 'event/Brno.png' %}">
+            <div class="layer">
+                <h3>BRNO</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ratings">
+    <h1> What participants says </h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elitU, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+    <div class="row">
+        <div class="ratings-col">
+            <img src="{% static 'event/Andrej.jpg' %}">
+            <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elitU,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h3> Andrej </h3>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            </div>
+        </div>
+                <div class="ratings-col">
+            <img src="{% static 'event/Tomas.jpg' %}">
+            <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elitU,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h3> Tomáš </h3>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-half"></i>
+            </div>
+        </div>
+                <div class="ratings-col">
+            <img src="{% static 'event/Peter.jpg' %}">
+            <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elitU,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h3> Peter </h3>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Button for signup/login-->
+
+<section class="cta">
+    <h1>Login to see more exciting informations.</h1>
+    <a href="" class="visit-btn">LOGIN FOR MORE<</a>
+</section>
+
+        <!-- Footer -->
+
+<section class="footer">
+    <h4> ABOUT US </h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-twitter"></i>
+    </div>
+
+</section>
+
+    <!-----Javascript for Menu----->
+<script>
+
+    var navLinks = document.getElementById("navLinks");
+    function showMenu(){
+        navLinks.style.right = "0";
+    }
+    function hideMenu(){
+        navLinks.style.right = "-200px";
+    }
+</script>
 
 </body>
 {% endblock %}
